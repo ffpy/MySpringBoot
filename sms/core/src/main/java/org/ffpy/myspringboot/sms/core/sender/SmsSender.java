@@ -3,7 +3,7 @@ package org.ffpy.myspringboot.sms.core.sender;
 import org.ffpy.myspringboot.sms.core.group.ISmsGroup;
 import org.ffpy.myspringboot.sms.core.exception.SendSmsFailException;
 
-import java.util.Map;
+import java.util.LinkedHashMap;
 
 /**
  * 短信发送者
@@ -27,10 +27,11 @@ public interface SmsSender {
      * @param countryCode 国家区号
      * @param phone       手机号
      * @param group       分组
-     * @param params      参数，用于填充短信模板
+     * @param params      参数，用于填充短信模板，
+     *                    用LinkedHashMap为是为保持顺序，有的短信接口的模板参数是按照位置填充的，如腾讯云
      * @throws SendSmsFailException
      */
-    void sendMessage(String countryCode, String phone, ISmsGroup group, Map<String, String> params) throws SendSmsFailException;
+    void sendTemplate(String countryCode, String phone, ISmsGroup group, LinkedHashMap<String, String> params) throws SendSmsFailException;
 
     /**
      * 发送短信，不用短信模板，只能用在国际短信发送

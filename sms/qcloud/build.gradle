@@ -35,6 +35,9 @@ dependencies {
     // json
     implementation libs.json
 
+    // qcloudsms
+    implementation libs.qcloudsms
+
     // findbugs
     implementation libs.findbugs
 

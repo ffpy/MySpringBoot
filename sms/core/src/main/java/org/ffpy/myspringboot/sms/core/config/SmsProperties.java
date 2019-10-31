@@ -49,4 +49,8 @@ public class SmsProperties {
     @Value("${sms.length:6}")
     @Range(min = 0, max = 10)
     private int length;
+
+    public String getExpireMinute() {
+        return Integer.toString(expire / 60);
+    }
 }

@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -76,17 +77,17 @@ public class AliyunSmsSender implements SmsSender {
             throw new IllegalArgumentException("code不能为空");
         }
 
-        Map<String, String> params = new HashMap<>(2);
+        LinkedHashMap<String, String> params = new LinkedHashMap<>(2);
         params.put(paramCode, code);
         if (StringUtils.isNotEmpty(paramExpire)) {
             params.put(paramExpire, Integer.toString(smsProperties.getExpire() / 60));
         }
 
-        sendMessage(countryCode, phone, group, params);
+        sendTemplate(countryCode, phone, group, params);
     }
 
     @Override
-    public void sendMessage(String countryCode, String phone, ISmsGroup group, Map<String, String> params) throws SendSmsFailException {
+    public void sendTemplate(String countryCode, String phone, ISmsGroup group, LinkedHashMap<String, String> params) throws SendSmsFailException {
         checkCountryCode(countryCode);
         checkGroup(group);
         checkPhone(phone);

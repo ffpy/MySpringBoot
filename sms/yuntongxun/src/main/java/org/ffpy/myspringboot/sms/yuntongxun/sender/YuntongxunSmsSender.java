@@ -19,6 +19,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /* 配置项:
@@ -80,7 +81,7 @@ public class YuntongxunSmsSender implements SmsSender {
     }
 
     @Override
-    public void sendMessage(String countryCode, String phone, ISmsGroup group, Map<String, String> params) throws SendSmsFailException {
+    public void sendTemplate(String countryCode, String phone, ISmsGroup group, LinkedHashMap<String, String> params) throws SendSmsFailException {
 
     }
 

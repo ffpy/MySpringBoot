@@ -27,13 +27,14 @@ allprojects {
                 json                          : "org.json:json:20190722",
                 aliyun_java_sdk_core          : "com.aliyun:aliyun-java-sdk-core:4.4.6",
                 junit                         : "junit:junit:4.12",
-                findbugs                      : "com.google.code.findbugs:jsr305:3.0.2"
+                findbugs                      : "com.google.code.findbugs:jsr305:3.0.2",
+                qcloudsms                     : "com.github.qcloudsms:qcloudsms:1.0.6"
         ]
     }
 }
 
 dependencies {
-    compile project(':sms:qcloud')
+    compile project(':sms:yuntongxun')
 
     // lombok
     compileOnly libs.lombok
