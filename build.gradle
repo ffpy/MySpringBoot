@@ -62,5 +62,5 @@ allprojects {
 }
 
 dependencies {
-    compile project(':sms:qcloud')
+    compile project(':sms:aliyun')
 }
