@@ -13,7 +13,7 @@ public interface SmsService {
      * @return 发送的验证码
      */
     default String sendCode(ISmsGroup group, String phone) throws SendSmsFailException {
-        return sendCode(group, "", phone);
+        return sendCode(group, "86", phone);
     }
 
     /**
