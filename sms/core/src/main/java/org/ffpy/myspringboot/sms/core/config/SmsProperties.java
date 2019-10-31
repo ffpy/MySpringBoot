@@ -8,18 +8,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
-/* 配置属性:
-# 是否开启调试模式，调试模式不发送验证码，并且验证码固定为调试的验证码
-sms.debug=
-# 调试模式的验证码
-sms.debug-code=
-# 验证码过期时间(秒)，推荐为60的倍数
-sms.expire=
-# 允许再次发送时间间隔(秒)
-sms.repeat-limit=
-# 验证码长度
-sms.code.length=
- */
 @Component
 @Getter
 @Setter
@@ -32,7 +20,7 @@ public class SmsProperties {
     private boolean debug;
 
     /** 调试模式的验证码 */
-    @Value("${sms.debug-code:123456}")
+    @Value("${sms.debugCode:123456}")
     private String debugCode;
 
     /** 验证码过期时间(秒) */
@@ -41,7 +29,7 @@ public class SmsProperties {
     private int expire;
 
     /** 允许再次发送时间间隔(秒) */
-    @Value("${sms.repeat-limit:60}")
+    @Value("${sms.repeatLimit:60}")
     @Range(min = 0, max = 3600)
     private int repeatLimit;
 

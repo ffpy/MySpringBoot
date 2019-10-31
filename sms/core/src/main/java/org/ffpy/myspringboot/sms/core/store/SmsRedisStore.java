@@ -1,4 +1,4 @@
-package org.ffpy.myspringboot.sms.core.store.redis;
+package org.ffpy.myspringboot.sms.core.store;
 
 import org.apache.commons.lang3.StringUtils;
 import org.ffpy.myspringboot.sms.core.group.ISmsGroup;

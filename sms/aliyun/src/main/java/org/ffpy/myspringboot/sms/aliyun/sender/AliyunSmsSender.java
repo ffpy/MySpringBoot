@@ -21,19 +21,6 @@ import org.springframework.stereotype.Component;
 import java.util.LinkedHashMap;
 import java.util.Objects;
 
-/* 配置项:
-# 阿里云AccessKey
-aliyun.accessKey=
-# 阿里云AccessSecret
-aliyun.accessSecret=
-# 短信签名
-sms.signName=
-# 短信模板验证码参数名
-sms.template.param.code=
-# 短信模板验证码过期时间参数名(分钟)
-sms.template.param.expire=
-*/
-
 /**
  * 阿里云短信
  */
@@ -51,10 +38,10 @@ public class AliyunSmsSender implements SmsSender {
     /** 发送模板短信动作 */
     private static final String ACTION_SEND_SMS_WITH_TEMPLATE = "SendMessageWithTemplate";
 
-    @Value("${aliyun.accessKey.id}")
+    @Value("${sms.aliyun.accessKey.id}")
     private String accessKeyId;
 
-    @Value("${aliyun.accessKey.secret}")
+    @Value("${sms.aliyun.accessKey.secret}")
     private String accessKeySecret;
 
     @Value("${sms.signName}")
@@ -63,7 +50,7 @@ public class AliyunSmsSender implements SmsSender {
     @Value("${sms.template.param.code:code}")
     private String paramCode;
 
-    @Value("${sms.template.param.expire:}")
+    @Value("${sms.template.param.expire:expire}")
     private String paramExpire;
 
     @Autowired

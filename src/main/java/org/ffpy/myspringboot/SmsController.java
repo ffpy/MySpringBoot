@@ -24,7 +24,7 @@ public class SmsController {
     }
 
     @PostMapping("/check")
-    public String checkCode(@RequestBody @Validated CodeRequest request) {
+    public String checkCode(@RequestBody @Validated LoginRequest request) {
         return "success: " + request;
     }
 }

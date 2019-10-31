@@ -7,7 +7,7 @@ import org.ffpy.myspringboot.sms.core.validator.SmsCodeBean;
 
 @Data
 @SmsCode("login")
-public class CodeRequest implements SmsCodeBean {
+public class LoginRequest implements SmsCodeBean {
 
     private String countryCode;
 

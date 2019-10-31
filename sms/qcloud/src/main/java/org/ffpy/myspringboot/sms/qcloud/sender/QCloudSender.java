@@ -15,20 +15,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-
-/* 配置项:
-# 腾讯云appId
-sms.qcloud.appId=
-# 腾讯云appKey
-sms.qcloud.appKey=
-# 短信签名
-sms.signName=
-# 短信模板验证码参数名
-sms.template.param.code=
-# 短信模板验证码过期时间参数名(分钟)
-sms.template.param.expire=
-*/
-
 /**
  * 腾讯云短信
  */
