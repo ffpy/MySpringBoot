@@ -4,10 +4,10 @@ import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.ffpy.myspringboot.sms.core.group.ISmsGroup;
-import org.ffpy.myspringboot.sms.core.exception.SendSmsFailException;
-import org.ffpy.myspringboot.sms.core.sender.SmsSender;
 import org.ffpy.myspringboot.sms.core.config.SmsProperties;
+import org.ffpy.myspringboot.sms.core.exception.SendSmsFailException;
+import org.ffpy.myspringboot.sms.core.group.ISmsGroup;
+import org.ffpy.myspringboot.sms.core.sender.SmsSender;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -59,7 +59,7 @@ public class YuntongxunSmsSender implements SmsSender {
         params.put("to", countryCode + phone);
         params.put("appId", appId);
         params.put("templateId", group.getTemplateId());
-        params.put("datas", Arrays.asList(code, String.valueOf(smsProperties.getExpire())));
+        params.put("datas", Arrays.asList(code, smsProperties.getExpireMinute()));
 
         HttpResponse response = null;
         try {
