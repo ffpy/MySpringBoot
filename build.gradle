@@ -59,9 +59,8 @@ allprojects {
 
         testCompile libs.junit
     }
-
 }
 
 dependencies {
-    compile project(':sms:yuntongxun')
+    compile project(':sms:qcloud')
 }

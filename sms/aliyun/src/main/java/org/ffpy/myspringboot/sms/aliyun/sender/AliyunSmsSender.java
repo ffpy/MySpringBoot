@@ -38,10 +38,10 @@ public class AliyunSmsSender implements SmsSender {
     /** 发送模板短信动作 */
     private static final String ACTION_SEND_SMS_WITH_TEMPLATE = "SendMessageWithTemplate";
 
-    @Value("${sms.aliyun.accessKey.id}")
+    @Value("${sms.aliyun.accessKey}")
     private String accessKeyId;
 
-    @Value("${sms.aliyun.accessKey.secret}")
+    @Value("${sms.aliyun.accessSecret}")
     private String accessKeySecret;
 
     @Value("${sms.signName}")
