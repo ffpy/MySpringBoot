@@ -2,41 +2,6 @@ plugins {
     id 'java'
 }
 
-group 'org.ffpy'
-version '1.0-SNAPSHOT'
-
-sourceCompatibility = 1.8
-
-repositories {
-    mavenCentral()
-}
-
 dependencies {
     compile project(':sms:core')
-
-    // lombok
-    compileOnly libs.lombok
-    testCompileOnly libs.lombok
-    annotationProcessor libs.lombok
-    testAnnotationProcessor libs.lombok
-
-    // spring boot
-    implementation libs.spring_boot_starter_web
-    implementation libs.spring_boot_starter_data_redis
-    testImplementation libs.spring_boot_starter_test
-
-    // commons
-    implementation libs.commons_lang3
-    implementation libs.commons_codec
-
-    // hutool
-    implementation libs.hutool_http
-
-    // json
-    implementation libs.json
-
-    // findbugs
-    implementation libs.findbugs
-
-    testCompile libs.junit
 }
