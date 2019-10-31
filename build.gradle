@@ -33,7 +33,7 @@ allprojects {
 }
 
 dependencies {
-    compile project(':sms:aliyun')
+    compile project(':sms:qcloud')
 
     // lombok
     compileOnly libs.lombok

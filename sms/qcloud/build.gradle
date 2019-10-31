@@ -12,6 +12,8 @@ repositories {
 }
 
 dependencies {
+    compile project(':sms:core')
+
     // lombok
     compileOnly libs.lombok
     testCompileOnly libs.lombok

@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration("_sms_configuration_")
-public class SmsConfiguration {
+public class MySpringBootSmsConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(SmsStore.class)
