@@ -1,7 +1,5 @@
 package org.ffpy.myspringboot.sms.core.validator;
 
-import org.ffpy.myspringboot.sms.core.SmsGroup;
-
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import javax.validation.ReportAsSingleViolation;
@@ -18,7 +16,8 @@ import java.lang.annotation.Target;
 @ReportAsSingleViolation
 public @interface SmsCode {
 
-    SmsGroup value();
+    /** 分组名 */
+    String value();
 
     String message() default "SMS_CODE_NOT_VALID";
 

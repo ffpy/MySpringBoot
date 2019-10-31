@@ -1,24 +1,28 @@
 package org.ffpy.myspringboot.sms.core.validator;
 
 import org.apache.commons.lang3.StringUtils;
-import org.ffpy.myspringboot.sms.core.SmsGroup;
+import org.ffpy.myspringboot.sms.core.group.ISmsGroup;
 import org.ffpy.myspringboot.sms.core.service.SmsService;
 import org.ffpy.myspringboot.sms.core.util.SmsCodeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.annotation.Resource;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 public class SmsCodeValidatorImpl implements ConstraintValidator<SmsCode, SmsCodeBean> {
 
-    private SmsGroup group;
+    private ISmsGroup group;
+
+    @Resource(name = "smsGroupClass")
+    private Class<? extends ISmsGroup> smsGroupClass;
 
     @Autowired
     private SmsService smsService;
 
     @Override
     public void initialize(SmsCode constraintAnnotation) {
-        group = constraintAnnotation.value();
+        group = ISmsGroup.ofName(constraintAnnotation.value(), smsGroupClass);
     }
 
     /**

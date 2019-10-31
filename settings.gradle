@@ -2,4 +2,4 @@ rootProject.name = 'my-spring-boot'
 
 include 'sms:core'
 include 'sms:aliyun'
-
+include 'sms:yuntongxun'

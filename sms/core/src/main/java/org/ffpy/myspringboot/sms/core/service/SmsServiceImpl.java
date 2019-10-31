@@ -3,10 +3,10 @@ package org.ffpy.myspringboot.sms.core.service;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.ffpy.myspringboot.sms.core.SendSmsFailException;
-import org.ffpy.myspringboot.sms.core.SmsGroup;
+import org.ffpy.myspringboot.sms.core.group.ISmsGroup;
+import org.ffpy.myspringboot.sms.core.exception.SendSmsFailException;
 import org.ffpy.myspringboot.sms.core.config.SmsProperties;
-import org.ffpy.myspringboot.sms.core.SmsSender;
+import org.ffpy.myspringboot.sms.core.sender.SmsSender;
 import org.ffpy.myspringboot.sms.core.store.SmsStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,12 +27,12 @@ public class SmsServiceImpl implements SmsService {
     private SmsSender smsSender;
 
     @Override
-    public String sendCode(SmsGroup group, String countryCode, String phone) throws SendSmsFailException {
+    public String sendCode(ISmsGroup group, String countryCode, String phone) throws SendSmsFailException {
         return sendCode(group, countryCode, phone, RandomStringUtils.randomNumeric(smsProperties.getLength()));
     }
 
     @Override
-    public String sendCode(SmsGroup group, String countryCode, String phone, String code) throws SendSmsFailException {
+    public String sendCode(ISmsGroup group, String countryCode, String phone, String code) throws SendSmsFailException {
         Objects.requireNonNull(group, "分组不能为null");
         Objects.requireNonNull(countryCode, "区号不能为null");
         if (StringUtils.isBlank(phone)) {
@@ -52,7 +52,7 @@ public class SmsServiceImpl implements SmsService {
 
         // debug模式不发送短信
         if (!smsProperties.isDebug()) {
-            smsSender.send(countryCode, phone, group, code);
+            smsSender.sendCode(countryCode, phone, group, code);
         }
 
         // 保存验证码并添加重复发送限制
@@ -63,12 +63,12 @@ public class SmsServiceImpl implements SmsService {
     }
 
     @Override
-    public String getCode(SmsGroup group, String countryCode, String phone) {
+    public String getCode(ISmsGroup group, String countryCode, String phone) {
         return smsStore.getCode(group, countryCode, phone);
     }
 
     @Override
-    public void removeCode(SmsGroup group, String countryCode, String phone) {
+    public void removeCode(ISmsGroup group, String countryCode, String phone) {
         smsStore.removeCode(group, countryCode, phone);
     }
 }

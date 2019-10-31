@@ -1,4 +1,4 @@
-package org.ffpy.myspringboot.sms.core;
+package org.ffpy.myspringboot.sms.core.group;
 
 import org.apache.commons.lang3.StringUtils;
 import org.ffpy.myspringboot.sms.core.util.SpringContextUtils;

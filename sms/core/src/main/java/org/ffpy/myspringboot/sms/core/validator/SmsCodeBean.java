@@ -8,7 +8,9 @@ public interface SmsCodeBean {
     /**
      * 获取区号
      */
-    String getCountryCode();
+    default String getCountryCode() {
+        return "";
+    }
 
     /**
      * 获取手机号

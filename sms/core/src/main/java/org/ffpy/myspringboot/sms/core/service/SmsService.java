@@ -1,7 +1,7 @@
 package org.ffpy.myspringboot.sms.core.service;
 
-import org.ffpy.myspringboot.sms.core.SendSmsFailException;
-import org.ffpy.myspringboot.sms.core.SmsGroup;
+import org.ffpy.myspringboot.sms.core.group.ISmsGroup;
+import org.ffpy.myspringboot.sms.core.exception.SendSmsFailException;
 
 public interface SmsService {
 
@@ -12,7 +12,7 @@ public interface SmsService {
      * @param phone 手机号
      * @return 发送的验证码
      */
-    default String sendCode(SmsGroup group, String phone) throws SendSmsFailException {
+    default String sendCode(ISmsGroup group, String phone) throws SendSmsFailException {
         return sendCode(group, "", phone);
     }
 
@@ -24,7 +24,7 @@ public interface SmsService {
      * @param phone       手机号
      * @return 发送的验证码
      */
-    String sendCode(SmsGroup group, String countryCode, String phone) throws SendSmsFailException;
+    String sendCode(ISmsGroup group, String countryCode, String phone) throws SendSmsFailException;
 
     /**
      * 发送短信验证码到指定手机号
@@ -35,7 +35,7 @@ public interface SmsService {
      * @param code        验证码
      * @return 发送的验证码
      */
-    String sendCode(SmsGroup group, String countryCode, String phone, String code) throws SendSmsFailException;
+    String sendCode(ISmsGroup group, String countryCode, String phone, String code) throws SendSmsFailException;
 
     /**
      * 获取指定手机号指定分组的验证码
@@ -45,7 +45,7 @@ public interface SmsService {
      * @param phone       手机号
      * @return 验证码
      */
-    String getCode(SmsGroup group, String countryCode, String phone);
+    String getCode(ISmsGroup group, String countryCode, String phone);
 
     /**
      * 移除指定手机号指定分组的验证码
@@ -54,5 +54,5 @@ public interface SmsService {
      * @param countryCode 区号
      * @param phone       手机号
      */
-    void removeCode(SmsGroup group, String countryCode, String phone);
+    void removeCode(ISmsGroup group, String countryCode, String phone);
 }

@@ -1,4 +1,4 @@
-package org.ffpy.myspringboot.sms.core;
+package org.ffpy.myspringboot.sms.core.exception;
 
 public class SendSmsFailException extends Exception {
 
