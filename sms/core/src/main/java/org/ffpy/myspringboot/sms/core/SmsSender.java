@@ -1,8 +1,5 @@
 package org.ffpy.myspringboot.sms.core;
 
-import org.ffpy.myspringboot.sms.core.SendSmsFailException;
-import org.ffpy.myspringboot.sms.core.SmsGroup;
-
 /**
  * 短信发送者
  */

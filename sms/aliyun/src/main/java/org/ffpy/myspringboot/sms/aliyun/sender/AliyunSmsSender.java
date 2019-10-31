@@ -6,6 +6,7 @@ import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
+import org.apache.commons.lang3.StringUtils;
 import org.ffpy.myspringboot.sms.core.SendSmsFailException;
 import org.ffpy.myspringboot.sms.core.SmsGroup;
 import org.ffpy.myspringboot.sms.core.SmsSender;
@@ -13,6 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,6 +30,7 @@ sms.template.param.code=
 /**
  * 阿里云短信
  */
+@Component
 public class AliyunSmsSender implements SmsSender {
 
     @Value("${aliyun.accessKey.id}")
@@ -55,6 +58,14 @@ public class AliyunSmsSender implements SmsSender {
 
     @Override
     public void send(String countryCode, String phone, SmsGroup group, String code) throws SendSmsFailException {
+        Objects.requireNonNull(group, "group不能为null");
+        if (StringUtils.isEmpty(phone)) {
+            throw new IllegalArgumentException("phone不能为空");
+        }
+        if (StringUtils.isEmpty(code)) {
+            throw new IllegalArgumentException("code不能为空");
+        }
+
         Map<String, String> params = new HashMap<>(2);
         params.put(paramCode, code);
 

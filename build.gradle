@@ -26,7 +26,8 @@ allprojects {
                 hutool_http                   : "cn.hutool:hutool-http:5.0.3",
                 json                          : "org.json:json:20190722",
                 aliyun_java_sdk_core          : "com.aliyun:aliyun-java-sdk-core:4.4.6",
-                junit                         : "junit:junit:4.12"
+                junit                         : "junit:junit:4.12",
+                findbugs                      : "com.google.code.findbugs:jsr305:3.0.2"
         ]
     }
 }

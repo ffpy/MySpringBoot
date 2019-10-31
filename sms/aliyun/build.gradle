@@ -38,5 +38,8 @@ dependencies {
     // aliyun
     implementation libs.aliyun_java_sdk_core
 
+    // findbugs
+    implementation libs.findbugs
+
     testCompile libs.junit
 }

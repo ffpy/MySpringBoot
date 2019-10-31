@@ -6,7 +6,7 @@ import org.ffpy.myspringboot.sms.core.config.SmsProperties;
 import org.ffpy.myspringboot.sms.core.store.SmsStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Conditional;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -16,8 +16,8 @@ import java.util.concurrent.TimeUnit;
 /**
  * 短信验证码存储
  */
-@Repository
-@Conditional(SmsRedisStoreCondition.class)
+//@Repository
+//@ConditionalOnMissingBean(SmsStore.class)
 public class SmsRedisStore implements SmsStore {
 
     private static final String SMS_CODE_REPEAT_LIMIT = ":sms_code_repeat_limit:";
