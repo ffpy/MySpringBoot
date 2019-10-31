@@ -18,7 +18,7 @@ sms.expire=
 # 允许再次发送时间间隔(秒)
 sms.repeat-limit=
 # 验证码长度
-sms.length=
+sms.code.length=
  */
 @Component
 @Getter
@@ -46,7 +46,7 @@ public class SmsProperties {
     private int repeatLimit;
 
     /** 验证码长度 */
-    @Value("${sms.length:6}")
+    @Value("${sms.code.length:6}")
     @Range(min = 0, max = 10)
     private int length;
 

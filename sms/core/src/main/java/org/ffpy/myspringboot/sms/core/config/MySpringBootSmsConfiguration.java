@@ -1,5 +1,7 @@
 package org.ffpy.myspringboot.sms.core.config;
 
+import org.ffpy.myspringboot.sms.core.code.CodeGenerator;
+import org.ffpy.myspringboot.sms.core.code.NumberCodeGenerator;
 import org.ffpy.myspringboot.sms.core.store.SmsStore;
 import org.ffpy.myspringboot.sms.core.store.redis.SmsRedisStore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -13,5 +15,11 @@ public class MySpringBootSmsConfiguration {
     @ConditionalOnMissingBean(SmsStore.class)
     public SmsStore smsStore() {
         return new SmsRedisStore();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(CodeGenerator.class)
+    public CodeGenerator smsCodeGenerator() {
+        return new NumberCodeGenerator();
     }
 }

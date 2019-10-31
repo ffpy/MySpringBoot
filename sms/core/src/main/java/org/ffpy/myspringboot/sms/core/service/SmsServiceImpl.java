@@ -3,6 +3,7 @@ package org.ffpy.myspringboot.sms.core.service;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.ffpy.myspringboot.sms.core.code.CodeGenerator;
 import org.ffpy.myspringboot.sms.core.group.ISmsGroup;
 import org.ffpy.myspringboot.sms.core.exception.SendSmsFailException;
 import org.ffpy.myspringboot.sms.core.config.SmsProperties;
@@ -26,9 +27,12 @@ public class SmsServiceImpl implements SmsService {
     @Autowired
     private SmsSender smsSender;
 
+    @Autowired
+    private CodeGenerator codeGenerator;
+
     @Override
     public String sendCode(ISmsGroup group, String countryCode, String phone) throws SendSmsFailException {
-        return sendCode(group, countryCode, phone, RandomStringUtils.randomNumeric(smsProperties.getLength()));
+        return sendCode(group, countryCode, phone, codeGenerator.generate(smsProperties.getLength()));
     }
 
     @Override

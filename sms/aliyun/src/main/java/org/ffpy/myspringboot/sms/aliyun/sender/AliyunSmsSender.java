@@ -7,10 +7,10 @@ import com.aliyuncs.IAcsClient;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import org.apache.commons.lang3.StringUtils;
-import org.ffpy.myspringboot.sms.core.group.ISmsGroup;
-import org.ffpy.myspringboot.sms.core.exception.SendSmsFailException;
-import org.ffpy.myspringboot.sms.core.sender.SmsSender;
 import org.ffpy.myspringboot.sms.core.config.SmsProperties;
+import org.ffpy.myspringboot.sms.core.exception.SendSmsFailException;
+import org.ffpy.myspringboot.sms.core.group.ISmsGroup;
+import org.ffpy.myspringboot.sms.core.sender.SmsSender;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Objects;
 
 /* 配置项:
@@ -73,6 +71,9 @@ public class AliyunSmsSender implements SmsSender {
 
     @Override
     public void sendCode(String countryCode, String phone, ISmsGroup group, String code) throws SendSmsFailException {
+        System.out.println("aliyun send: " + code);
+        if (true) return;
+
         if (StringUtils.isEmpty(code)) {
             throw new IllegalArgumentException("code不能为空");
         }
