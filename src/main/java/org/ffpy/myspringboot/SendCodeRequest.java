@@ -12,4 +12,6 @@ public class SendCodeRequest {
     private String countryCode;
 
     private String phone;
+
+    private String type;
 }

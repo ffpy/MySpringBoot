@@ -58,6 +58,9 @@ public class AliyunSmsSender implements SmsSender {
 
     @Override
     public void sendCode(String countryCode, String phone, ISmsGroup group, String code) throws SendSmsFailException {
+        // TODO
+        if (true) return;
+
         if (StringUtils.isEmpty(code)) {
             throw new IllegalArgumentException("code不能为空");
         }

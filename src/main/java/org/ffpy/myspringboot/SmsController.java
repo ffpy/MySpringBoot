@@ -1,7 +1,9 @@
 package org.ffpy.myspringboot;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.ffpy.myspringboot.sms.core.exception.SendSmsFailException;
+import org.ffpy.myspringboot.sms.core.group.ISmsGroup;
 import org.ffpy.myspringboot.sms.core.service.country.CountryCodeService;
 import org.ffpy.myspringboot.sms.core.service.sms.SmsService;
 import org.ffpy.myspringboot.sms.core.ui.response.CountryCodeResponse;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@Api(tags = "05. 短信")
 @RestController
 @RequestMapping("/api/sms")
 @Validated
@@ -28,7 +31,8 @@ public class SmsController {
 
     @GetMapping("/send")
     public String sendCode(@Validated SendCodeRequest request) throws SendSmsFailException {
-        return smsService.sendCode(SmsGroup.LOGIN, request.getCountryCode(), request.getPhone());
+        return smsService.sendCode(ISmsGroup.ofName(request.getType(), SmsGroup.class),
+                request.getCountryCode(), request.getPhone());
     }
 
     @ApiOperation("获取支持的国家区号列表")
