@@ -38,16 +38,16 @@ public class YuntongxunSmsSender implements SmsSender {
     @Autowired
     private SmsProperties smsProperties;
 
-    @Value("${sms.baseUrl:https://app.cloopen.com:8883}")
+    @Value("${sms.yuntongxun.baseUrl:https://app.cloopen.com:8883}")
     private String baseUrl;
 
-    @Value("${sms.sid}")
+    @Value("${sms.yuntongxun.sid}")
     private String sid;
 
-    @Value("${sms.token}")
+    @Value("${sms.yuntongxun.token}")
     private String token;
 
-    @Value("${sms.appId}")
+    @Value("${sms.yuntongxun.appId}")
     private String appId;
 
     @Override
