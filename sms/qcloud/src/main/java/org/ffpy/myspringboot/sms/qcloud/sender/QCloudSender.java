@@ -1,4 +1,4 @@
-package org.ffpy.myspringboot.sms.qcloudsms.sender;
+package org.ffpy.myspringboot.sms.qcloud.sender;
 
 import com.github.qcloudsms.SmsSingleSender;
 import com.github.qcloudsms.SmsSingleSenderResult;
