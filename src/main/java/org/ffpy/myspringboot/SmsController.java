@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Api(tags = "05. 短信")
+@Api(tags = "短信")
 @RestController
 @RequestMapping("/api/sms")
 @Validated
@@ -29,8 +29,9 @@ public class SmsController {
     @Autowired
     private CountryCodeService countryCodeService;
 
-    @GetMapping("/send")
-    public String sendCode(@Validated SendCodeRequest request) throws SendSmsFailException {
+    @ApiOperation("发送短信验证码")
+    @PostMapping("/send")
+    public String sendCode(@RequestBody @Validated SendCodeRequest request) throws SendSmsFailException {
         return smsService.sendCode(ISmsGroup.ofName(request.getType(), SmsGroup.class),
                 request.getCountryCode(), request.getPhone());
     }
@@ -39,10 +40,5 @@ public class SmsController {
     @GetMapping("/allowed-country-code")
     public List<CountryCodeResponse> getAllowedCountryCodes() {
         return countryCodeService.getAllowedCountryCodes();
-    }
-
-    @PostMapping("/check")
-    public String checkCode(@RequestBody @Validated LoginRequest request) {
-        return "success: " + request;
     }
 }
