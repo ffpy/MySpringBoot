@@ -1,12 +1,11 @@
-package org.ffpy.myspringboot.sms.core.service;
+package org.ffpy.myspringboot.sms.core.service.sms;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.ffpy.myspringboot.sms.core.code.CodeGenerator;
-import org.ffpy.myspringboot.sms.core.group.ISmsGroup;
-import org.ffpy.myspringboot.sms.core.exception.SendSmsFailException;
 import org.ffpy.myspringboot.sms.core.config.SmsProperties;
+import org.ffpy.myspringboot.sms.core.exception.SendSmsFailException;
+import org.ffpy.myspringboot.sms.core.group.ISmsGroup;
 import org.ffpy.myspringboot.sms.core.sender.SmsSender;
 import org.ffpy.myspringboot.sms.core.store.SmsStore;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +26,14 @@ public class SmsServiceImpl implements SmsService {
     @Autowired
     private SmsSender smsSender;
 
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private CodeGenerator codeGenerator;
+
+    @Override
+    public String sendCode(ISmsGroup group, String phone) throws SendSmsFailException {
+        return sendCode(group, smsProperties.getDefaultCountryCode(), phone);
+    }
 
     @Override
     public String sendCode(ISmsGroup group, String countryCode, String phone) throws SendSmsFailException {

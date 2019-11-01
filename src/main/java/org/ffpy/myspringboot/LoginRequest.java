@@ -1,13 +1,11 @@
 package org.ffpy.myspringboot;
 
-
 import lombok.Data;
-import org.ffpy.myspringboot.sms.core.validator.SmsCode;
-import org.ffpy.myspringboot.sms.core.validator.SmsCodeBean;
+import org.ffpy.myspringboot.sms.core.validator.SmsCodeValid;
 
 @Data
-@SmsCode("login")
-public class LoginRequest implements SmsCodeBean {
+@SmsCodeValid(SmsGroup.Names.LOGIN)
+public class LoginRequest {
 
     private String countryCode;
 

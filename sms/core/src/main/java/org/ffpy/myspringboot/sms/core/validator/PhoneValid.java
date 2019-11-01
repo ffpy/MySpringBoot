@@ -10,16 +10,28 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Documented
-@Constraint(validatedBy = {SmsCodeValidatorImpl.class})
-@Target({ElementType.FIELD, ElementType.TYPE, ElementType.PARAMETER, ElementType.ANNOTATION_TYPE})
+@Constraint(validatedBy = {PhoneValidValidatorImpl.class})
+@Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @ReportAsSingleViolation
-public @interface SmsCode {
+public @interface PhoneValid {
 
-    /** 分组名 */
-    String value();
+    String message() default "PHONE_FORMAT_IS_INCORRECT";
 
-    String message() default "SMS_CODE_NOT_VALID";
+    /**
+     * 是否允许为空
+     */
+    boolean emptyAble() default false;
+
+    /**
+     * 手机号字段名
+     */
+    String phoneField() default "phone";
+
+    /**
+     * 国家区号字段名
+     */
+    String countryCodeField() default "countryCode";
 
     Class<?>[] groups() default {};
 

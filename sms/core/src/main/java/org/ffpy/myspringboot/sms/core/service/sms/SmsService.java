@@ -1,7 +1,7 @@
-package org.ffpy.myspringboot.sms.core.service;
+package org.ffpy.myspringboot.sms.core.service.sms;
 
-import org.ffpy.myspringboot.sms.core.group.ISmsGroup;
 import org.ffpy.myspringboot.sms.core.exception.SendSmsFailException;
+import org.ffpy.myspringboot.sms.core.group.ISmsGroup;
 
 public interface SmsService {
 
@@ -12,9 +12,7 @@ public interface SmsService {
      * @param phone 手机号
      * @return 发送的验证码
      */
-    default String sendCode(ISmsGroup group, String phone) throws SendSmsFailException {
-        return sendCode(group, "86", phone);
-    }
+    String sendCode(ISmsGroup group, String phone) throws SendSmsFailException;
 
     /**
      * 发送短信验证码到指定手机号，验证码自动生成

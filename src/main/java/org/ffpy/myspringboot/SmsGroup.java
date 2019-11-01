@@ -9,9 +9,14 @@ import org.ffpy.myspringboot.sms.core.group.ISmsGroup;
 public enum SmsGroup implements ISmsGroup {
 
     /** 登录 */
-    LOGIN("login", "sms.template.login"),
+    LOGIN(Names.LOGIN, "sms.template.login"),
 
     ;
+
     private final String name;
     private final String templateKey;
+
+    public interface Names {
+        String LOGIN = "login";
+    }
 }
