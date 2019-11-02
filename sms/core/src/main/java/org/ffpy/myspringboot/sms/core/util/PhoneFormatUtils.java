@@ -7,7 +7,7 @@ public class PhoneFormatUtils {
      * 此方法中前三位格式有：13+任意数 15+除4的任意数 18+除1和4的任意数 17+除9的任意数 147
      */
     public static boolean isChinaPhone(String phone) {
-        return phone.matches("((13[0-9])|(15[0-35-9])|(18[0235-9])|(17[0-8])|(147))\\d{8}");
+        return phone.matches("((13[0-9])|(15[^4\\D])|(18[^14\\D])|(17[0-8])|(147))\\d{8}");
     }
 
     /**
