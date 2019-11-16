@@ -1,7 +1,9 @@
 package org.ffpy.myspringboot.sms.core.constant;
 
+import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
@@ -13,18 +15,18 @@ public enum PhoneFormat {
     /** 未知国家的手机号 */
     UNKNOWN("", "\\d+"),
 
-    /** 大陆手机号码11位数 */
+    /** 大陆手机号码 */
     CHINA("86", "((13[0-9])|(15[^4\\D])|(18[^14\\D])|(17[0-8])|(147))\\d{8}"),
 
-    /** 香港手机号码8位数，5|6|8|9开头+7位任意数 */
+    /** 香港手机号码 */
     HK("852", "[5689]\\d{7}"),
 
     /** 澳大利亚 */
     AUSTRALIA("61", "0?[23478]\\d{8}"),
 
-
     ;
     /** 国家区号 */
+    @Getter
     private final String countryCode;
 
     /** 手机号匹配正则表达式 */
@@ -52,9 +54,7 @@ public enum PhoneFormat {
     }
 
     PhoneFormat(String countryCode, String regex) {
-        if (StringUtils.isEmpty(countryCode)) {
-            throw new IllegalArgumentException("countryCode cannot be empty.");
-        }
+        Objects.requireNonNull(countryCode, "countryCode cannot be null.");
         if (StringUtils.isEmpty(regex)) {
             throw new IllegalArgumentException("regex cannot be empty.");
         }
@@ -68,7 +68,7 @@ public enum PhoneFormat {
         }
 
         this.countryCode = countryCode;
-        this.regex = "^" + regex + "$";
+        this.regex = regex;
     }
 
     /**
@@ -79,7 +79,7 @@ public enum PhoneFormat {
      */
     public boolean valid(String phone) {
         if (predicate == null) {
-            predicate = Pattern.compile(regex).asPredicate();
+            predicate = Pattern.compile("^" + regex + "$").asPredicate();
         }
         return predicate.test(phone);
     }
@@ -92,7 +92,7 @@ public enum PhoneFormat {
      */
     public boolean validWithCountryCode(String phone) {
         if (predicateWithCountryCode == null) {
-            predicateWithCountryCode = Pattern.compile("(?:\\+?" + countryCode + ")?" + regex).asPredicate();
+            predicateWithCountryCode = Pattern.compile("^(?:\\+?" + countryCode + ")?" + regex + "$").asPredicate();
         }
         return predicateWithCountryCode.test(phone);
     }
