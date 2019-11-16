@@ -4,6 +4,11 @@ import org.ffpy.myspringboot.sms.core.ui.response.CountryCodeResponse;
 
 import java.util.List;
 
+/**
+ * 国家区号相关服务类接口
+ *
+ * @author wenlongsheng
+ */
 public interface CountryCodeService {
 
     /**

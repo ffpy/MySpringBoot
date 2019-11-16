@@ -13,6 +13,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
+/**
+ * 短信验证码相关服务类
+ *
+ * @author wenlongsheng
+ */
 @Slf4j
 @Service
 public class SmsServiceImpl implements SmsService {

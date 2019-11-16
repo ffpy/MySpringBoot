@@ -4,3 +4,5 @@ include 'sms:core'
 include 'sms:aliyun'
 include 'sms:yuntongxun'
 include 'sms:qcloud'
+include 'common'
+

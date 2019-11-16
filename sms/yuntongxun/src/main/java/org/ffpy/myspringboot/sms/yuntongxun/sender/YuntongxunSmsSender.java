@@ -30,7 +30,7 @@ sms.baseUrl=
  */
 
 /**
- * 容联云通讯
+ * 容联云通讯短信发送器
  */
 @Component
 public class YuntongxunSmsSender implements SmsSender {

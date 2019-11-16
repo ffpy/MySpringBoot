@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 /**
- * 腾讯云短信
+ * 腾讯云短信发送器
  */
 @Component
 public class QCloudSender implements SmsSender {

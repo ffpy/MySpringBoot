@@ -1,8 +1,13 @@
 package org.ffpy.myspringboot.sms.core.exception;
 
+/**
+ * 短信发送失败异常
+ *
+ * @author wenlongsheng
+ */
 public class SendSmsFailException extends Exception {
 
-    /** 失败响应数据 */
+    /** 发送失败时的响应数据 */
     private String response;
 
     public SendSmsFailException(String response) {

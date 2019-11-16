@@ -10,28 +10,70 @@ import javax.validation.ConstraintValidatorContext;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 
-public abstract class BasePhoneValidator<A extends Annotation> implements ConstraintValidator<A, Object> {
+/**
+ * 抽象的手机号校验注解校验器，用于继承
+ *
+ * @author wenlongsheng
+ */
+public abstract class AbstractPhoneValidator<A extends Annotation> implements ConstraintValidator<A, Object> {
+
+    /** 是否允许手机号为空 */
+    protected boolean emptyAble;
+
+    /** 国家码字段名 */
+    protected String countryCodeField;
+
+    /** 手机号字段名 */
+    protected String phoneField;
 
     @Autowired
     protected SmsProperties smsProperties;
 
-    protected boolean emptyAble;
-    protected String phoneField;
-    protected String countryCodeField;
-
+    /**
+     * 获取注解上的emptyAble值
+     *
+     * @param constraintAnnotation 校验注解
+     * @return true允许为空，false反之
+     */
     protected abstract boolean getEmptyAble(A constraintAnnotation);
 
+    /**
+     * 获取注解上的phoneField值
+     *
+     * @param constraintAnnotation 校验注解
+     * @return phone字段名
+     */
     protected abstract String getPhoneField(A constraintAnnotation);
 
+    /**
+     * 获取注解上的countryCodeField值
+     *
+     * @param constraintAnnotation 校验注解
+     * @return countryCode字段名
+     */
     protected abstract String getCountryCodeField(A constraintAnnotation);
 
+    /**
+     * 如有需要，通过重写此方法来执行初始化动作
+     *
+     * @param constraintAnnotation 校验注解
+     */
     protected void init(A constraintAnnotation) {
     }
 
-    protected abstract boolean doValid(Object obj, String phone, String countryCode, ConstraintValidatorContext context);
+    /**
+     * 校验手机号格式
+     *
+     * @param obj         要校验的对象
+     * @param countryCode 国家区号
+     * @param phone       手机号
+     * @param context     ConstraintValidatorContext
+     * @return true为校验通过，false为校验不通过
+     */
+    protected abstract boolean doValid(Object obj, String countryCode, String phone, ConstraintValidatorContext context);
 
     /**
-     * 通过重写{@link BasePhoneValidator#init(Annotation)}方法来实现相同的功能
+     * 通过重写{@link AbstractPhoneValidator#init(Annotation)}方法来执行初始化动作，不要重写这个方法
      */
     @Override
     @Deprecated
@@ -79,7 +121,7 @@ public abstract class BasePhoneValidator<A extends Annotation> implements Constr
                 }
             }
 
-            return doValid(obj, phone, countryCode, context);
+            return doValid(obj, countryCode, phone, context);
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             throw new RuntimeException("读取字段值失败", e);
         }

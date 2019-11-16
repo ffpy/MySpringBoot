@@ -12,6 +12,11 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+/**
+ * 短信模块配置属性
+ *
+ * @author wenlongsheng
+ */
 @Component
 @Getter
 @Setter

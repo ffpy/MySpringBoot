@@ -1,10 +1,10 @@
 package org.ffpy.myspringboot.sms.core.validator;
 
-import org.ffpy.myspringboot.sms.core.constant.PhoneFormat;
+import org.ffpy.myspringboot.sms.core.constant.CountryCode;
 
 import javax.validation.ConstraintValidatorContext;
 
-class PhoneValidValidatorImpl extends BasePhoneValidator<PhoneValid> {
+class PhoneValidValidatorImpl extends AbstractPhoneValidator<PhoneValid> {
 
     @Override
     protected boolean getEmptyAble(PhoneValid constraintAnnotation) {
@@ -25,7 +25,7 @@ class PhoneValidValidatorImpl extends BasePhoneValidator<PhoneValid> {
      * 校验手机号格式是否正确
      */
     @Override
-    protected boolean doValid(Object obj, String phone, String countryCode, ConstraintValidatorContext context) {
-        return PhoneFormat.of(countryCode).valid(phone);
+    protected boolean doValid(Object obj, String countryCode, String phone, ConstraintValidatorContext context) {
+        return CountryCode.of(countryCode).getPhoneFormat().valid(phone);
     }
 }

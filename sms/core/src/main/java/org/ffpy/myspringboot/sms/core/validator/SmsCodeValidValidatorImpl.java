@@ -11,7 +11,10 @@ import javax.annotation.Resource;
 import javax.validation.ConstraintValidatorContext;
 import java.lang.reflect.InvocationTargetException;
 
-public class SmsCodeValidValidatorImpl extends BasePhoneValidator<SmsCodeValid> {
+/**
+ * 短信验证码校验注解校验器
+ */
+public class SmsCodeValidValidatorImpl extends AbstractPhoneValidator<SmsCodeValid> {
 
     @Resource(name = "smsGroupClass")
     private Class<? extends ISmsGroup> smsGroupClass;
@@ -52,7 +55,7 @@ public class SmsCodeValidValidatorImpl extends BasePhoneValidator<SmsCodeValid> 
      * 校验短信验证码是否正确
      */
     @Override
-    protected boolean doValid(Object obj, String phone, String countryCode, ConstraintValidatorContext context) {
+    protected boolean doValid(Object obj, String countryCode, String phone, ConstraintValidatorContext context) {
         try {
             String code = BeanUtils.getSimpleProperty(obj, codeField);
 

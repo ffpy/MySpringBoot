@@ -9,6 +9,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * 短信验证码校验注解，用于类上，校验验证码是否正确
+ * 如果类不存在countryCode字段，则会使用sms.countryCode.default属性的值来作为默认国家区号来校验
+ *
+ * @author wenlongsheng
+ */
 @Documented
 @Constraint(validatedBy = {SmsCodeValidValidatorImpl.class})
 @Target({ElementType.TYPE, ElementType.PARAMETER, ElementType.ANNOTATION_TYPE})

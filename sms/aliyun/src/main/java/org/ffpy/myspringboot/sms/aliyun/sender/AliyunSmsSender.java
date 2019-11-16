@@ -22,7 +22,7 @@ import java.util.LinkedHashMap;
 import java.util.Objects;
 
 /**
- * 阿里云短信
+ * 阿里云短信发送器
  */
 @Component
 public class AliyunSmsSender implements SmsSender {

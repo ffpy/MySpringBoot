@@ -7,15 +7,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class CountryCodeValidatorImpl implements ConstraintValidator<CountryCodeValidator, String> {
+/**
+ * 国家区号校验注解检验器
+ */
+public class CountryCodeValidatorImpl implements ConstraintValidator<CountryCodeValid, String> {
 
+    /** 是否运行国家区号为空 */
     private boolean emptyAble;
 
     @Autowired
     private CountryCodeService countryCodeService;
 
     @Override
-    public void initialize(CountryCodeValidator constraintAnnotation) {
+    public void initialize(CountryCodeValid constraintAnnotation) {
         emptyAble = constraintAnnotation.emptyAble();
     }
 
@@ -33,6 +37,11 @@ public class CountryCodeValidatorImpl implements ConstraintValidator<CountryCode
                         .addConstraintViolation();
                 return false;
             }
+        }
+
+        // 去掉加号
+        if (value.startsWith("+")) {
+            value = value.substring(1);
         }
 
         if (!value.matches("\\d{1,3}([- ]\\d{1,3})?")) {

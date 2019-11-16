@@ -1,4 +1,4 @@
-package org.ffpy.myspringboot.sms.core.util;
+package org.ffpy.myspringboot.common.util;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;

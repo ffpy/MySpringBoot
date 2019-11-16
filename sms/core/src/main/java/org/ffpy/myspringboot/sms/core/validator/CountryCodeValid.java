@@ -9,12 +9,17 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * 国家区号校验注解
+ *
+ * @author wenlongsheng
+ */
 @Documented
 @Constraint(validatedBy = {CountryCodeValidatorImpl.class})
 @Target({ElementType.FIELD, ElementType.TYPE, ElementType.PARAMETER, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @ReportAsSingleViolation
-public @interface CountryCodeValidator {
+public @interface CountryCodeValid {
 
     String message() default "COUNTRY_CODE_FORMAT_IS_INCORRECT";
 

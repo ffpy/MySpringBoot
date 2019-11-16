@@ -3,7 +3,7 @@ package org.ffpy.myspringboot;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.ffpy.myspringboot.sms.core.validator.CountryCodeValidator;
+import org.ffpy.myspringboot.sms.core.validator.CountryCodeValid;
 import org.ffpy.myspringboot.sms.core.validator.PhoneValid;
 
 @ApiModel
@@ -12,7 +12,7 @@ import org.ffpy.myspringboot.sms.core.validator.PhoneValid;
 public class SendCodeRequest {
 
     @ApiModelProperty(value = "国家区号，不带加号", position = 1, required = true, example = "86")
-    @CountryCodeValidator
+    @CountryCodeValid
     private String countryCode;
 
     @ApiModelProperty(value = "手机号", position = 2, required = true, example = "13412347890")

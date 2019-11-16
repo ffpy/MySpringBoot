@@ -3,6 +3,11 @@ package org.ffpy.myspringboot.sms.core.service.sms;
 import org.ffpy.myspringboot.sms.core.exception.SendSmsFailException;
 import org.ffpy.myspringboot.sms.core.group.ISmsGroup;
 
+/**
+ * 短信验证码相关服务类接口
+ *
+ * @author wenlongsheng
+ */
 public interface SmsService {
 
     /**

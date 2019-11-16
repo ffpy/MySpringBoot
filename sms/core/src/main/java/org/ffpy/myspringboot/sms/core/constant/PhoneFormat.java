@@ -9,25 +9,27 @@ import java.util.regex.Pattern;
 
 /**
  * 手机号格式
+ *
+ * @author wenlongsheng
  */
 public enum PhoneFormat {
 
     /** 未知国家的手机号 */
-    UNKNOWN("", "\\d+"),
+    UNKNOWN(CountryCode.UNKNOWN, "\\d+"),
 
     /** 大陆手机号码 */
-    CHINA("86", "((13[0-9])|(15[^4\\D])|(18[^14\\D])|(17[0-8])|(147))\\d{8}"),
+    CHINA(CountryCode.CHINA, "((13[0-9])|(15[^4\\D])|(18[^14\\D])|(17[0-8])|(147))\\d{8}"),
 
     /** 香港手机号码 */
-    HK("852", "[5689]\\d{7}"),
+    HK(CountryCode.HK, "[5689]\\d{7}"),
 
     /** 澳大利亚 */
-    AUSTRALIA("61", "0?[23478]\\d{8}"),
+    AUSTRALIA(CountryCode.AUSTRALIA, "0?[23478]\\d{8}"),
 
     ;
-    /** 国家区号 */
+    /** 对应的国家区号 */
     @Getter
-    private final String countryCode;
+    private final CountryCode countryCode;
 
     /** 手机号匹配正则表达式 */
     private final String regex;
@@ -38,33 +40,17 @@ public enum PhoneFormat {
     /** 加上国家区号的匹配器 */
     private Predicate<String> predicateWithCountryCode;
 
-    /**
-     * 根据国家区号获取对应的手机号格式
-     *
-     * @param countryCode 国家区号
-     * @return 对应国家的手机号格式，如果找不到则返回{@link #UNKNOWN}
-     */
-    public static PhoneFormat of(String countryCode) {
-        for (PhoneFormat phoneFormat : values()) {
-            if (phoneFormat.countryCode.equals(countryCode)) {
-                return phoneFormat;
-            }
-        }
-        return UNKNOWN;
-    }
-
-    PhoneFormat(String countryCode, String regex) {
-        Objects.requireNonNull(countryCode, "countryCode cannot be null.");
+    PhoneFormat(CountryCode countryCode, String regex) {
+        Objects.requireNonNull(countryCode, "国家码不能为null.");
         if (StringUtils.isEmpty(regex)) {
-            throw new IllegalArgumentException("regex cannot be empty.");
+            throw new IllegalArgumentException("表达式不能为空");
         }
 
-        // 加上首尾位置匹配
         if (regex.startsWith("^")) {
-            throw new IllegalArgumentException("regex can't startsWith '^'");
+            throw new IllegalArgumentException("表达式不能以'^'开始");
         }
         if (regex.endsWith("$")) {
-            throw new IllegalArgumentException("regex can't endsWith '$'");
+            throw new IllegalArgumentException("表达式不能以'$'结束");
         }
 
         this.countryCode = countryCode;
@@ -92,7 +78,8 @@ public enum PhoneFormat {
      */
     public boolean validWithCountryCode(String phone) {
         if (predicateWithCountryCode == null) {
-            predicateWithCountryCode = Pattern.compile("^(?:\\+?" + countryCode + ")?" + regex + "$").asPredicate();
+            predicateWithCountryCode = Pattern.compile("^(?:\\+?" + countryCode.getCode() + ")?" + regex + "$")
+                    .asPredicate();
         }
         return predicateWithCountryCode.test(phone);
     }

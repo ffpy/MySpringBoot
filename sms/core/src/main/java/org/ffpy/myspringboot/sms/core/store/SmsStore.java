@@ -2,6 +2,11 @@ package org.ffpy.myspringboot.sms.core.store;
 
 import org.ffpy.myspringboot.sms.core.group.ISmsGroup;
 
+/**
+ * 短信验证码存储接口
+ *
+ * @author wenlongsheng
+ */
 public interface SmsStore {
 
     /**

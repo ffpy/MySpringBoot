@@ -1,9 +1,8 @@
 package org.ffpy.myspringboot.sms.core.store;
 
 import org.apache.commons.lang3.StringUtils;
-import org.ffpy.myspringboot.sms.core.group.ISmsGroup;
 import org.ffpy.myspringboot.sms.core.config.SmsProperties;
-import org.ffpy.myspringboot.sms.core.store.SmsStore;
+import org.ffpy.myspringboot.sms.core.group.ISmsGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -12,12 +11,20 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 短信验证码存储
+ * 短信验证码Redis存储
+ *
+ * @author wenlongsheng
  */
 public class SmsRedisStore implements SmsStore {
 
+    /** 重复发送的键 */
     private static final String SMS_CODE_REPEAT_LIMIT = ":sms_code_repeat_limit:";
+
+    /** 存储验证码的键 */
     private static final String SMS_CODE = ":sms_code:";
+
+    /** 再次发送的值 */
+    private static final String REPEAT_VALUE = "1";
 
     /** redis键的命名空间，即项目名称 */
     @Value("${sms.namespace}")
@@ -25,9 +32,6 @@ public class SmsRedisStore implements SmsStore {
 
     @Autowired
     private SmsProperties smsProperties;
-
-    /** 再次发送的值 */
-    private static final String REPEAT_VALUE = "1";
 
     @Autowired
     private StringRedisTemplate redisTemplate;
@@ -63,6 +67,14 @@ public class SmsRedisStore implements SmsStore {
                 .orElse(false);
     }
 
+    /**
+     * 获取验证码存储的键
+     *
+     * @param group       短信分组
+     * @param countryCode 国家区号
+     * @param phone       手机号
+     * @return 键
+     */
     private String getKey(ISmsGroup group, String countryCode, String phone) {
         if (StringUtils.isBlank(group.getName())) {
             throw new IllegalArgumentException("group name cannot be blank");
@@ -74,6 +86,14 @@ public class SmsRedisStore implements SmsStore {
         return namespace + SMS_CODE + group.getName() + ":" + countryCode + phone;
     }
 
+    /**
+     * 获取重复发送的键
+     *
+     * @param group       短信分组
+     * @param countryCode 国家区号
+     * @param phone       手机号
+     * @return 键
+     */
     private String getRepeatKey(ISmsGroup group, String countryCode, String phone) {
         if (StringUtils.isBlank(group.getName())) {
             throw new IllegalArgumentException("group name cannot be blank");
