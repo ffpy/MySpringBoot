@@ -64,7 +64,11 @@ public abstract class BasePhoneValidator<A extends Annotation> implements Constr
                 }
             }
 
-            if (StringUtils.isEmpty(phone)) {
+            if (countryCode == null) {
+                countryCode = "";
+            }
+
+            if (StringUtils.isBlank(phone)) {
                 if (emptyAble) {
                     return true;
                 } else {

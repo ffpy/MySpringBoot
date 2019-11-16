@@ -95,3 +95,6 @@ gradle-app.setting
 # gradle/wrapper/gradle-wrapper.properties
 
 application-local.properties
+
+log/
+*.log
