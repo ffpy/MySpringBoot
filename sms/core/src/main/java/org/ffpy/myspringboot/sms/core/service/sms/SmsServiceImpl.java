@@ -8,6 +8,7 @@ import org.ffpy.myspringboot.sms.core.exception.SendSmsFailException;
 import org.ffpy.myspringboot.sms.core.group.ISmsGroup;
 import org.ffpy.myspringboot.sms.core.sender.SmsSender;
 import org.ffpy.myspringboot.sms.core.store.SmsStore;
+import org.ffpy.myspringboot.sms.core.util.CountryCodeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,12 +57,11 @@ public class SmsServiceImpl implements SmsService {
             throw new IllegalArgumentException("验证码不能为空");
         }
 
-        if (smsProperties.isDebug()) {
+        if (smsProperties.isDebug() && StringUtils.isNotEmpty(smsProperties.getDebugCode())) {
             code = smsProperties.getDebugCode();
         }
 
-        // 去掉国家区号中的非数字字符
-        countryCode = countryCode.replaceAll("\\D", "");
+        countryCode = CountryCodeUtils.normalCountryCode(countryCode);
 
         if (smsStore.isInRepeatLimit(group, countryCode, phone)) {
             throw new IllegalArgumentException("SMS_REPEAT_SEND_NOT_ALLOW");
@@ -81,11 +81,11 @@ public class SmsServiceImpl implements SmsService {
 
     @Override
     public String getCode(ISmsGroup group, String countryCode, String phone) {
-        return smsStore.getCode(group, countryCode, phone);
+        return smsStore.getCode(group, CountryCodeUtils.normalCountryCode(countryCode), phone);
     }
 
     @Override
     public void removeCode(ISmsGroup group, String countryCode, String phone) {
-        smsStore.removeCode(group, countryCode, phone);
+        smsStore.removeCode(group, CountryCodeUtils.normalCountryCode(countryCode), phone);
     }
 }

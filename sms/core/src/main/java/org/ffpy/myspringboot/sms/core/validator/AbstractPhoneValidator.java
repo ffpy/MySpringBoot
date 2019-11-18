@@ -3,6 +3,7 @@ package org.ffpy.myspringboot.sms.core.validator;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.ffpy.myspringboot.sms.core.config.SmsProperties;
+import org.ffpy.myspringboot.sms.core.util.CountryCodeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintValidator;
@@ -120,7 +121,7 @@ public abstract class AbstractPhoneValidator<A extends Annotation> implements Co
                 }
             }
 
-            return doValid(obj, countryCode, phone, context);
+            return doValid(obj, CountryCodeUtils.normalCountryCode(countryCode), phone, context);
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             throw new RuntimeException("读取字段值失败", e);
         }

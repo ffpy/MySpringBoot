@@ -2,6 +2,7 @@ package org.ffpy.myspringboot.sms.core.validator;
 
 import org.apache.commons.lang3.StringUtils;
 import org.ffpy.myspringboot.sms.core.service.country.CountryCodeService;
+import org.ffpy.myspringboot.sms.core.util.CountryCodeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintValidator;
@@ -27,8 +28,8 @@ public class CountryCodeValidatorImpl implements ConstraintValidator<CountryCode
      * 校验手机国家区号
      */
     @Override
-    public boolean isValid(String value, ConstraintValidatorContext context) {
-        if (StringUtils.isEmpty(value)) {
+    public boolean isValid(String countryCode, ConstraintValidatorContext context) {
+        if (StringUtils.isEmpty(countryCode)) {
             if (emptyAble) {
                 return true;
             } else {
@@ -39,16 +40,13 @@ public class CountryCodeValidatorImpl implements ConstraintValidator<CountryCode
             }
         }
 
-        // 去掉加号
-        if (value.startsWith("+")) {
-            value = value.substring(1);
-        }
+        countryCode = CountryCodeUtils.normalCountryCode(countryCode);
 
-        if (!value.matches("\\d{1,3}([- ]\\d{1,3})?")) {
+        if (!countryCode.matches("\\d{1,3}([- ]\\d{1,3})?")) {
             return false;
         }
 
-        if (!countryCodeService.isCountryCodeAllowed(value)) {
+        if (!countryCodeService.isCountryCodeAllowed(countryCode)) {
             context.disableDefaultConstraintViolation();
             context.buildConstraintViolationWithTemplate("NOT_ALLOW_COUNTRY_CODE")
                     .addConstraintViolation();

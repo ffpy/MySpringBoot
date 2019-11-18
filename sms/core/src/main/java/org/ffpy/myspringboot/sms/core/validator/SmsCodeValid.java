@@ -22,7 +22,7 @@ import java.lang.annotation.Target;
 @ReportAsSingleViolation
 public @interface SmsCodeValid {
 
-    /** 分组名 */
+    /** 分组名，即要检验的SmsGroup的name */
     String value();
 
     String message() default "SMS_CODE_NOT_VALID";

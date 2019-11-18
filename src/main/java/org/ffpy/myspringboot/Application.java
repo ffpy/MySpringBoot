@@ -3,7 +3,9 @@ package org.ffpy.myspringboot;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication(scanBasePackages = "org.ffpy.myspringboot")
+import java.net.URL;
+
+@SpringBootApplication
 public class Application {
 
     public static void main(String[] args) {

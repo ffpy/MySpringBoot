@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.Objects;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
 /**
@@ -15,21 +16,20 @@ import java.util.regex.Pattern;
 public enum PhoneFormat {
 
     /** 未知国家的手机号 */
-    UNKNOWN(CountryCode.UNKNOWN, "\\d+"),
+    UNKNOWN(() -> CountryCode.UNKNOWN, "\\d+"),
 
     /** 大陆手机号码 */
-    CHINA(CountryCode.CHINA, "((13[0-9])|(15[^4\\D])|(18[^14\\D])|(17[0-8])|(147))\\d{8}"),
+    CHINA(() -> CountryCode.CHINA, "((13[0-9])|(15[^4\\D])|(18[^14\\D])|(17[0-8])|(147))\\d{8}"),
 
     /** 香港手机号码 */
-    HK(CountryCode.HK, "[5689]\\d{7}"),
+    HK(() -> CountryCode.HK, "[5689]\\d{7}"),
 
     /** 澳大利亚 */
-    AUSTRALIA(CountryCode.AUSTRALIA, "0?[23478]\\d{8}"),
+    AUSTRALIA(() -> CountryCode.AUSTRALIA, "0?[23478]\\d{8}"),
 
     ;
     /** 对应的国家区号 */
-    @Getter
-    private final CountryCode countryCode;
+    private final Supplier<CountryCode> countryCodeSupplier;
 
     /** 手机号匹配正则表达式 */
     private final String regex;
@@ -40,8 +40,8 @@ public enum PhoneFormat {
     /** 加上国家区号的匹配器 */
     private Predicate<String> predicateWithCountryCode;
 
-    PhoneFormat(CountryCode countryCode, String regex) {
-        Objects.requireNonNull(countryCode, "国家码不能为null.");
+    PhoneFormat(Supplier<CountryCode> countryCodeSupplier, String regex) {
+        Objects.requireNonNull(countryCodeSupplier, "国家码不能为null.");
         if (StringUtils.isEmpty(regex)) {
             throw new IllegalArgumentException("表达式不能为空");
         }
@@ -53,7 +53,7 @@ public enum PhoneFormat {
             throw new IllegalArgumentException("表达式不能以'$'结束");
         }
 
-        this.countryCode = countryCode;
+        this.countryCodeSupplier = countryCodeSupplier;
         this.regex = regex;
     }
 
@@ -78,7 +78,8 @@ public enum PhoneFormat {
      */
     public boolean validWithCountryCode(String phone) {
         if (predicateWithCountryCode == null) {
-            predicateWithCountryCode = Pattern.compile("^(?:\\+?" + countryCode.getCode() + ")?" + regex + "$")
+            predicateWithCountryCode = Pattern.compile(
+                    "^(?:\\+?" + countryCodeSupplier.get().getCode() + ")?" + regex + "$")
                     .asPredicate();
         }
         return predicateWithCountryCode.test(phone);

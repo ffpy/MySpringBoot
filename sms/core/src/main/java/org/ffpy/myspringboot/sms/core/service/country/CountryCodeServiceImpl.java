@@ -41,8 +41,8 @@ public class CountryCodeServiceImpl implements InitializingBean, CountryCodeServ
                     .map(it -> {
                         String[] split = StringUtils.split(it, '_');
                         if (split.length == 2) {
-                            String code = split[0].trim();
-                            String country = split[1].trim();
+                            String country = split[0].trim();
+                            String code = split[1].trim();
 
                             if (!code.matches("\\d+")) {
                                 throw new IllegalArgumentException("区号必须为纯数字");
@@ -51,7 +51,7 @@ public class CountryCodeServiceImpl implements InitializingBean, CountryCodeServ
                                 throw new IllegalArgumentException("国家名称不能为空");
                             }
 
-                            return new CountryCodeResponse(code, country);
+                            return new CountryCodeResponse(country, code);
                         } else {
                             throw new IllegalArgumentException("格式不正确: " + it + "，正确的格式为: [国家名称]_[国家区号]，不带[]");
                         }
