@@ -24,7 +24,7 @@ public interface SmsSender {
     void sendCode(String countryCode, String phone, ISmsGroup group, String code) throws SendSmsFailException;
 
     /**
-     * 发送短信
+     * 发送模板短信
      *
      * @param countryCode 国家区号
      * @param phone       手机号

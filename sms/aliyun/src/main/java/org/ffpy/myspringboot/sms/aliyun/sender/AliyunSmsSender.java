@@ -23,6 +23,8 @@ import java.util.Objects;
 
 /**
  * 阿里云短信发送器
+ *
+ * @author wenlongsheng
  */
 @Component
 public class AliyunSmsSender implements SmsSender {
@@ -38,18 +40,23 @@ public class AliyunSmsSender implements SmsSender {
     /** 发送模板短信动作 */
     private static final String ACTION_SEND_SMS_WITH_TEMPLATE = "SendMessageWithTemplate";
 
+    /** 阿里云Key */
     @Value("${sms.aliyun.accessKey}")
     private String accessKeyId;
 
+    /** 阿里云Secret */
     @Value("${sms.aliyun.accessSecret}")
     private String accessKeySecret;
 
+    /** 短信签名 */
     @Value("${sms.signName}")
     private String signName;
 
+    /** 验证码模板参数名 */
     @Value("${sms.template.param.code:code}")
     private String paramCode;
 
+    /** 过期时间模板参数名 */
     @Value("${sms.template.param.expire:expire}")
     private String paramExpire;
 

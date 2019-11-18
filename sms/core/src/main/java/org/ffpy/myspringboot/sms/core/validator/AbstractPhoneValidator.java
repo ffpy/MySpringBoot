@@ -76,8 +76,7 @@ public abstract class AbstractPhoneValidator<A extends Annotation> implements Co
      * 通过重写{@link AbstractPhoneValidator#init(Annotation)}方法来执行初始化动作，不要重写这个方法
      */
     @Override
-    @Deprecated
-    public void initialize(A constraintAnnotation) {
+    public final void initialize(A constraintAnnotation) {
         emptyAble = getEmptyAble(constraintAnnotation);
         phoneField = getPhoneField(constraintAnnotation);
         countryCodeField = getCountryCodeField(constraintAnnotation);

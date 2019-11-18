@@ -7,11 +7,18 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
+/**
+ * Spring上下文工具类
+ *
+ * @author wenlongsheng
+ */
 @Component
 public class SpringContextUtils implements InitializingBean, ApplicationContextAware {
 
+    /** Spring环境 */
     private static Environment ENVIRONMENT;
 
+    /** Spring容器 */
     private static ApplicationContext applicationContext;
 
     @Autowired
@@ -36,11 +43,13 @@ public class SpringContextUtils implements InitializingBean, ApplicationContextA
 
     @Override
     public void afterPropertiesSet() throws Exception {
+        // 注入Environment
         ENVIRONMENT = mEnvironment;
     }
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) {
+        // 注入applicationContext
         SpringContextUtils.applicationContext = applicationContext;
     }
 }

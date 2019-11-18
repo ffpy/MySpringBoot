@@ -60,6 +60,9 @@ public class SmsServiceImpl implements SmsService {
             code = smsProperties.getDebugCode();
         }
 
+        // 去掉国家区号中的非数字字符
+        countryCode = countryCode.replaceAll("\\D", "");
+
         if (smsStore.isInRepeatLimit(group, countryCode, phone)) {
             throw new IllegalArgumentException("SMS_REPEAT_SEND_NOT_ALLOW");
         }

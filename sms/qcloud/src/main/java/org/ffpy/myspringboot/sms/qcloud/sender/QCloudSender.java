@@ -17,18 +17,23 @@ import java.util.LinkedHashMap;
 
 /**
  * 腾讯云短信发送器
+ *
+ * @author wenlongsheng
  */
 @Component
 public class QCloudSender implements SmsSender {
 
     private static final int RESULT_SUCCESS = 0;
 
+    /** AppId */
     @Value("${sms.qcloud.appId}")
     private String appId;
 
+    /** AppKey */
     @Value("${sms.qcloud.appKey}")
     private String appKey;
 
+    /** 短信签名 */
     @Value("${sms.signName}")
     private String signName;
 

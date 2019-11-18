@@ -22,8 +22,10 @@ public class SmsCodeValidValidatorImpl extends AbstractPhoneValidator<SmsCodeVal
     @Autowired
     private SmsService smsService;
 
+    /** 短信分组 */
     private ISmsGroup group;
 
+    /** 验证码字段名 */
     private String codeField;
 
     @Override

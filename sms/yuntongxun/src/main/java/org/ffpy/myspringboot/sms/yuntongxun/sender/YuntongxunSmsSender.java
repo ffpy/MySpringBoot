@@ -16,57 +16,64 @@ import org.springframework.stereotype.Component;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-/* 配置项:
-sms.sid=
-sms.token=
-sms.appId=
-sms.baseUrl=
- */
-
 /**
  * 容联云通讯短信发送器
+ *
+ * @author wenlongsheng
  */
 @Component
 public class YuntongxunSmsSender implements SmsSender {
 
-    @Autowired
-    private SmsProperties smsProperties;
-
+    /** 短信接口，一般不用改 */
     @Value("${sms.yuntongxun.baseUrl:https://app.cloopen.com:8883}")
     private String baseUrl;
 
+    /** 容联Sid */
     @Value("${sms.yuntongxun.sid}")
     private String sid;
 
+    /** 容联Token */
     @Value("${sms.yuntongxun.token}")
     private String token;
 
+    /** 容联应用ID */
     @Value("${sms.yuntongxun.appId}")
     private String appId;
 
+    @Autowired
+    private SmsProperties smsProperties;
+
     @Override
     public void sendCode(String countryCode, String phone, ISmsGroup group, String code) throws SendSmsFailException {
+        LinkedHashMap<String, String> params = new LinkedHashMap<>();
+        params.put("code", code);
+        params.put("expire", smsProperties.getExpireMinute());
+
+        sendTemplate(countryCode, phone, group, params);
+    }
+
+    @Override
+    public void sendTemplate(String countryCode, String phone, ISmsGroup group, LinkedHashMap<String, String> params) throws SendSmsFailException {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
         String timestamp = formatter.format(LocalDateTime.now());
 
-        Map<String, Object> params = new HashMap<>(8);
-        params.put("to", countryCode + phone);
-        params.put("appId", appId);
-        params.put("templateId", group.getTemplateId());
-        params.put("datas", Arrays.asList(code, smsProperties.getExpireMinute()));
+        Map<String, Object> map = new HashMap<>(8);
+        map.put("to", countryCode + phone);
+        map.put("appId", appId);
+        map.put("templateId", group.getTemplateId());
+        map.put("datas", params.values());
 
         HttpResponse response = null;
         try {
             response = HttpUtil.createPost(getUrl(timestamp))
                     .header("Accept", "application/json")
                     .header("Authorization", getAuthorization(timestamp))
-                    .body(new cn.hutool.json.JSONObject(params).toString())
+                    .body(new cn.hutool.json.JSONObject(map).toString())
                     .execute();
 
             if (response.isOk()) {
@@ -78,11 +85,6 @@ public class YuntongxunSmsSender implements SmsSender {
             throw new SendSmsFailException(String.valueOf(response), e);
         }
         throw new SendSmsFailException(String.valueOf(response));
-    }
-
-    @Override
-    public void sendTemplate(String countryCode, String phone, ISmsGroup group, LinkedHashMap<String, String> params) throws SendSmsFailException {
-
     }
 
     @Override
