@@ -2,7 +2,7 @@ package org.ffpy.myspringboot.sms.core.validator;
 
 import org.apache.commons.lang3.StringUtils;
 import org.ffpy.myspringboot.sms.core.service.country.CountryCodeService;
-import org.ffpy.myspringboot.sms.core.util.CountryCodeUtils;
+import org.ffpy.myspringboot.sms.core.util.PhoneNumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintValidator;
@@ -40,7 +40,7 @@ public class CountryCodeValidatorImpl implements ConstraintValidator<CountryCode
             }
         }
 
-        countryCode = CountryCodeUtils.normalCountryCode(countryCode);
+        countryCode = PhoneNumberUtils.normalCountryCode(countryCode);
 
         if (!countryCode.matches("\\d{1,3}([- ]\\d{1,3})?")) {
             return false;

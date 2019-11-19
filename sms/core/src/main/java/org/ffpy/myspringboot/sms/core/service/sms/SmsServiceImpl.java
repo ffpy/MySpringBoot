@@ -8,7 +8,7 @@ import org.ffpy.myspringboot.sms.core.exception.SendSmsFailException;
 import org.ffpy.myspringboot.sms.core.group.ISmsGroup;
 import org.ffpy.myspringboot.sms.core.sender.SmsSender;
 import org.ffpy.myspringboot.sms.core.store.SmsStore;
-import org.ffpy.myspringboot.sms.core.util.CountryCodeUtils;
+import org.ffpy.myspringboot.sms.core.util.PhoneNumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -61,7 +61,8 @@ public class SmsServiceImpl implements SmsService {
             code = smsProperties.getDebugCode();
         }
 
-        countryCode = CountryCodeUtils.normalCountryCode(countryCode);
+        countryCode = PhoneNumberUtils.normalCountryCode(countryCode);
+        phone = PhoneNumberUtils.normalPhone(phone);
 
         if (smsStore.isInRepeatLimit(group, countryCode, phone)) {
             throw new IllegalArgumentException("SMS_REPEAT_SEND_NOT_ALLOW");
@@ -81,11 +82,11 @@ public class SmsServiceImpl implements SmsService {
 
     @Override
     public String getCode(ISmsGroup group, String countryCode, String phone) {
-        return smsStore.getCode(group, CountryCodeUtils.normalCountryCode(countryCode), phone);
+        return smsStore.getCode(group, PhoneNumberUtils.normalCountryCode(countryCode), phone);
     }
 
     @Override
     public void removeCode(ISmsGroup group, String countryCode, String phone) {
-        smsStore.removeCode(group, CountryCodeUtils.normalCountryCode(countryCode), phone);
+        smsStore.removeCode(group, PhoneNumberUtils.normalCountryCode(countryCode), phone);
     }
 }
