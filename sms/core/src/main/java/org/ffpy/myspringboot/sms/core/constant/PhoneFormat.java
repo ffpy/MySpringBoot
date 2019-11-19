@@ -171,4 +171,13 @@ public enum PhoneFormat {
         }
         return predicateWithCountryCode.test(phone);
     }
+
+    /**
+     * 获取对应的国家区号
+     *
+     * @return 对应的国家区号
+     */
+    public CountryCode getCountryCode() {
+        return countryCodeSupplier.get();
+    }
 }
