@@ -72,5 +72,5 @@ allprojects {
 
 dependencies {
     compile project(':sms:aliyun')
-//    compile fileTree(dir: 'lib', include: ['*.jar'])
+    compile fileTree(dir: 'lib', include: ['*.jar'])
 }
