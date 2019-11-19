@@ -30,13 +30,13 @@ public enum PhoneFormat {
     /** 澳大利亚 */
     AUSTRALIA(() -> CountryCode.AUSTRALIA, "[23478]\\d{8}"),
 
-    /** 阿拉伯语(阿尔及利亚) */
+    /** 阿尔及利亚 */
     ARABIC_ALGERIA(() -> CountryCode.ARABIC_ALGERIA, "(5|6|7)\\d{8}"),
 
-    /** 阿拉伯语(叙利亚) */
+    /** 叙利亚 */
     ARABIC_SYRIA(() -> CountryCode.ARABIC_SYRIA, "9\\d{8}"),
 
-    /** 阿拉伯语(沙特阿拉伯) */
+    /** 沙特阿拉伯 */
     ARABIC_SAUDI_ARABIA(() -> CountryCode.ARABIC_SAUDI_ARABIA, "5\\d{8}"),
 
     /** 美国 */

@@ -32,13 +32,13 @@ public enum CountryCode {
     /** 澳大利亚 */
     AUSTRALIA("61", PhoneFormat.AUSTRALIA),
 
-    /** 阿拉伯语(阿尔及利亚) */
+    /** 阿尔及利亚 */
     ARABIC_ALGERIA("213", PhoneFormat.ARABIC_ALGERIA),
 
-    /** 阿拉伯语(叙利亚) */
+    /** 叙利亚 */
     ARABIC_SYRIA("963", PhoneFormat.ARABIC_SYRIA),
 
-    /** 阿拉伯语(沙特阿拉伯) */
+    /** 沙特阿拉伯 */
     ARABIC_SAUDI_ARABIA("966", PhoneFormat.ARABIC_SAUDI_ARABIA),
 
     /** 美国 */
