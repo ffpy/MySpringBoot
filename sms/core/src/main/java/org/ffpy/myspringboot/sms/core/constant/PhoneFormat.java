@@ -1,6 +1,5 @@
 package org.ffpy.myspringboot.sms.core.constant;
 
-import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Objects;
@@ -10,22 +9,110 @@ import java.util.regex.Pattern;
 
 /**
  * 手机号格式
+ * 正则表达式参考: https://www.w3xue.com/exp/article/20197/48395.html
  *
  * @author wenlongsheng
  */
 public enum PhoneFormat {
 
-    /** 未知国家的手机号 */
+    /** 未知 */
     UNKNOWN(() -> CountryCode.UNKNOWN, "\\d+"),
 
-    /** 大陆手机号码 */
+    /** 中国大陆 */
     CHINA(() -> CountryCode.CHINA, "((13[0-9])|(15[^4\\D])|(18[^14\\D])|(17[0-8])|(147))\\d{8}"),
 
-    /** 香港手机号码 */
-    HK(() -> CountryCode.HK, "[5689]\\d{7}"),
+    /** 中国香港 */
+    HONG_KONG(() -> CountryCode.HONG_KONG, "[5689]\\d{7}"),
+
+    /** 中国台湾 */
+    TAIWAN(() -> CountryCode.TAIWAN, "9\\d{8}"),
 
     /** 澳大利亚 */
-    AUSTRALIA(() -> CountryCode.AUSTRALIA, "0?[23478]\\d{8}"),
+    AUSTRALIA(() -> CountryCode.AUSTRALIA, "[23478]\\d{8}"),
+
+    /** 阿拉伯语(阿尔及利亚) */
+    ARABIC_ALGERIA(() -> CountryCode.ARABIC_ALGERIA, "(5|6|7)\\d{8}"),
+
+    /** 阿拉伯语(叙利亚) */
+    ARABIC_SYRIA(() -> CountryCode.ARABIC_SYRIA, "9\\d{8}"),
+
+    /** 阿拉伯语(沙特阿拉伯) */
+    ARABIC_SAUDI_ARABIA(() -> CountryCode.ARABIC_SAUDI_ARABIA, "5\\d{8}"),
+
+    /** 美国 */
+    AMERICA(() -> CountryCode.AMERICA, "[2-9]\\d{2}[2-9](?!11)\\d{6}"),
+
+    /** 捷克 */
+    CZECH(() -> CountryCode.CZECH, "[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{3}"),
+
+    /** 德国 */
+    GERMANY(() -> CountryCode.GERMANY, "([\\(]{1}[0-9]{1,6}[\\)])?([0-9 \\.\\-\\/]{3,20})((x|ext|extension)[ ]?[0-9]{1,4})?"),
+
+    /** 丹麦 */
+    DENMARK(() -> CountryCode.DENMARK, "(\\d{8})"),
+
+    /** 希腊 */
+    GREECE(() -> CountryCode.GREECE, "(69\\d{8})"),
+
+    /** 英国 */
+    BRITAIN(() -> CountryCode.BRITAIN, "7\\d{9}"),
+
+    /** 印度 */
+    INDIA(() -> CountryCode.INDIA, "[789]\\d{9}"),
+
+    /** 新西兰 */
+    NEW_ZEALAND(() -> CountryCode.NEW_ZEALAND, "2\\d{7,9}"),
+
+    /** 南非 */
+    SOUTH_AFRICA(() -> CountryCode.SOUTH_AFRICA, "\\d{9}"),
+
+    /** 西班牙 */
+    SPAIN(() -> CountryCode.SPAIN, "(6\\d{1}|7[1234])\\d{7}"),
+
+    /** 芬兰 */
+    FINLAND(() -> CountryCode.FINLAND, "(4(0|1|2|4|5)?|50)\\s?(\\d\\s?){4,8}\\d"),
+
+    /** 法国 */
+    FRANCE(() -> CountryCode.FRANCE, "[67]\\d{8}"),
+
+    /** 以色列 */
+    ISRAEL(() -> CountryCode.ISRAEL, "([23489]|5[0248]|77)[1-9]\\d{6}"),
+
+    /** 匈牙利 */
+    HUNGARY(() -> CountryCode.HUNGARY, "(20|30|70)\\d{7}"),
+
+    /** 意大利 */
+    ITALY(() -> CountryCode.ITALY, "3\\d{2} ?\\d{6,7}"),
+
+    /** 日本 */
+    JAPAN(() -> CountryCode.JAPAN, "\\d{1,4}[ \\-]?\\d{1,4}[ \\-]?\\d{4}"),
+
+    /** 马来西亚 */
+    MALAYSIA(() -> CountryCode.MALAYSIA, "(([145]{1}(\\-|\\s)?\\d{7,8})|([236789]{1}(\\s|\\-)?\\d{7}))"),
+
+    /** 挪威 */
+    NORWAY(() -> CountryCode.NORWAY, "[49]\\d{7}"),
+
+    /** 比利时 */
+    BELGIUM(() -> CountryCode.BELGIUM, "4?\\d{8}"),
+
+    /** 波兰 */
+    POLAND(() -> CountryCode.POLAND, "[5-8]\\d ?\\d{3} ?\\d{2} ?\\d{2}"),
+
+    /** 巴西 */
+    BRAZIL(() -> CountryCode.BRAZIL, "[1-9]{2}\\-?[2-9]{1}\\d{3,4}\\-?\\d{4}"),
+
+    /** 葡萄牙 */
+    PORTUGAL(() -> CountryCode.PORTUGAL, "9[1236]\\d{7}"),
+
+    /** 俄罗斯 */
+    RUSSIA(() -> CountryCode.RUSSIA, "9\\d{9}"),
+
+    /** 土耳其 */
+    TURKEY(() -> CountryCode.TURKEY, "5\\d{9}"),
+
+    /** 越南 */
+    VIETNAM(() -> CountryCode.VIETNAM, "((1(2([0-9])|6([2-9])|88|99))|(9((?!5)[0-9])))([0-9]{7})"),
 
     ;
     /** 对应的国家区号 */

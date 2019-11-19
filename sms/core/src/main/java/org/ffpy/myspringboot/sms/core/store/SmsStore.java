@@ -11,7 +11,8 @@ public interface SmsStore {
 
     /**
      * 保存短信验证码
-     *  @param group       分组
+     *
+     * @param group       分组
      * @param countryCode 区号
      * @param phone       手机号
      * @param code        验证码
@@ -30,7 +31,8 @@ public interface SmsStore {
 
     /**
      * 移除短信验证码
-     *  @param group       分组
+     *
+     * @param group       分组
      * @param countryCode 区号
      * @param phone       手机号
      */
@@ -38,7 +40,8 @@ public interface SmsStore {
 
     /**
      * 添加再次发送限制
-     *  @param group       分组
+     *
+     * @param group       分组
      * @param countryCode 区号
      * @param phone       手机号
      */
