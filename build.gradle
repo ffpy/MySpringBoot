@@ -40,6 +40,8 @@ allprojects {
     }
 
     dependencies {
+        compile fileTree(dir: 'lib', include: ['*.jar'])
+
         // lombok
         compileOnly libs.lombok
         testCompileOnly libs.lombok
@@ -72,5 +74,4 @@ allprojects {
 
 dependencies {
     compile project(':sms:aliyun')
-//    compile fileTree(dir: 'lib', include: ['*.jar'])
 }

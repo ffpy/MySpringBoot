@@ -2,13 +2,12 @@
 
 ### 步骤
 1. 引入对应的(阿里云、腾讯云、容联云通讯)jar包
+2. 添加beanutils、commons-lang3依赖
 2. 在配置文件中添加属性
 3. 添加SmsGroup枚举类
 4. 添加Configuration类
-5. 添加SendCodeRequest类
-6. 添加SmsController类
-7. 在exception_msg.properties中添加键值
-8. 在Request中校验验证码
+5. 在exception_msg.properties中添加键值
+6. 在Request中校验验证码
 
 ### Properties
 #### 公共属性
@@ -31,7 +30,7 @@
 | sms.aliyun.accessSecret | 阿里云AccessSecret | | 
 | sms.signName | 短信签名 | | 
 | sms.template.param.code | 短信模板验证码参数名 | code | 
-| sms.template.param.expire | 短信模板验证码过期时间(分钟)参数名 | expire | 
+| sms.template.param.expire | 短信模板验证码过期时间(分钟)参数名 | 空串 | 
 
 #### 腾讯云
 | 名称 | 说明 | 默认值 |
@@ -57,12 +56,11 @@
 @Getter
 public enum SmsGroup implements ISmsGroup {
 
-    /** 登录 */
-    LOGIN(Names.LOGIN, "sms.template.login"),
+    LOGIN(Names.LOGIN, "登录", "sms.template.login"),
 
     ;
-
     private final String name;
+    private final String desc;
     private final String templateKey;
 
     public interface Names {
@@ -86,55 +84,6 @@ public class SmsConfiguration {
 }
 ```
 
-### SmsController
-```
-@Api(tags = "短信")
-@RestController
-@RequestMapping("/api/sms")
-@Validated
-public class SmsController {
-
-    @Autowired
-    private SmsService smsService;
-
-    @Autowired
-    private CountryCodeService countryCodeService;
-
-    @ApiOperation("发送短信验证码")
-    @PostMapping("/send")
-    public String sendCode(@Validated SendCodeRequest request) throws SendSmsFailException {
-        return smsService.sendCode(ISmsGroup.ofName(request.getType(), SmsGroup.class),
-                request.getCountryCode(), request.getPhone());
-    }
-
-    @ApiOperation("获取支持的国家区号列表")
-    @GetMapping("/allowed-country-code")
-    public List<CountryCodeResponse> getAllowedCountryCodes() {
-        return countryCodeService.getAllowedCountryCodes();
-    }
-}
-```
-
-### SendCodeRequest
-```
-@ApiModel
-@Data
-@PhoneValid
-public class SendCodeRequest {
-
-    @ApiModelProperty(value = "国家区号，不带加号", position = 1, required = true, example = "86")
-    @CountryCodeValidator
-    private String countryCode;
-
-    @ApiModelProperty(value = "手机号", position = 2, required = true, example = "13412347890")
-    private String phone;
-
-    @ApiModelProperty(value = "类型:login(登录)", position = 3, required = true, example = "login",
-            allowableValues = "login")
-    private String type;
-}
-```
-
 ### exception_msg.properties
 在exception_msg.properties和ExceptionMsg.class中添加以下键值
 ```
@@ -144,6 +93,7 @@ NOT_ALLOW_COUNTRY_CODE=不是允许的国家区号
 COUNTRY_CODE_CANNOT_BE_EMPTY=国家区号不能为空
 PHONE_CANNOT_BE_EMPTY=手机号不能为空
 PHONE_FORMAT_IS_INCORRECT=手机号格式不正确
+SMS_REPEAT_SEND_NOT_ALLOW=短信发送时间间隔过短
 ```
 
 ### 在Request中校验验证码
