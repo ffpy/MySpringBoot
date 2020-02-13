@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Github地址: https://github.com/ffpy/MySpringBoot/tree/master
+ * Github地址: https://github.com/ffpy/MySpringBoot/tree/ganguo/sms
  *
  * @author wenlongsheng
  */
