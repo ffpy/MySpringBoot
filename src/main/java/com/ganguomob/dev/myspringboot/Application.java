@@ -1,9 +1,11 @@
 package com.ganguomob.dev.myspringboot;
 
+import com.ganguomob.dev.myspringboot.socketio.anno.SocketServiceScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
+@SocketServiceScan
 public class Application {
 
     public static void main(String[] args) {

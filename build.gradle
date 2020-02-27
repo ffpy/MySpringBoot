@@ -36,6 +36,7 @@ allprojects {
                 qcloudsms                     : "com.github.qcloudsms:qcloudsms:1.0.6",
                 swagger                       : "io.springfox:springfox-swagger2:$swaggerVersion",
                 swagger_ui                    : "io.springfox:springfox-swagger-ui:$swaggerVersion",
+                socket_io                     : 'com.corundumstudio.socketio:netty-socketio:1.7.18',
         ]
     }
 
@@ -74,4 +75,7 @@ allprojects {
 
 dependencies {
     compile project(':sms:aliyun')
+    compile project(':socketio')
+
+    implementation libs.socket_io
 }
