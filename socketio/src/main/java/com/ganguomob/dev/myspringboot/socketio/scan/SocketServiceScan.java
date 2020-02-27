@@ -1,6 +1,6 @@
-package com.ganguomob.dev.myspringboot.socketio.anno;
+package com.ganguomob.dev.myspringboot.socketio.scan;
 
-import com.ganguomob.dev.myspringboot.socketio.SocketServiceScannerRegistrar;
+import com.ganguomob.dev.myspringboot.socketio.service.SocketService;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.annotation.AliasFor;
 
@@ -12,6 +12,7 @@ import java.lang.annotation.Target;
 
 /**
  * 开启{@link SocketService}注解自动扫描
+ * Github地址: https://github.com/ffpy/MySpringBoot/tree/ganguo/socketio
  *
  * @author wenlongsheng
  * @date 2020/2/21

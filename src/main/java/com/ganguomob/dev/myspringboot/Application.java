@@ -1,6 +1,6 @@
 package com.ganguomob.dev.myspringboot;
 
-import com.ganguomob.dev.myspringboot.socketio.anno.SocketServiceScan;
+import com.ganguomob.dev.myspringboot.socketio.scan.SocketServiceScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

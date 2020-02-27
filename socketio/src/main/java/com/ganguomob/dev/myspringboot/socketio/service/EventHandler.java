@@ -1,4 +1,4 @@
-package com.ganguomob.dev.myspringboot.socketio.anno;
+package com.ganguomob.dev.myspringboot.socketio.service;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

@@ -1,8 +1,11 @@
 package com.ganguomob.dev.myspringboot.socket;
 
-import com.corundumstudio.socketio.HandshakeData;
-import com.ganguomob.dev.myspringboot.socketio.config.SocketConfig;
-import org.apache.commons.lang3.StringUtils;
+import com.corundumstudio.socketio.SocketIOServer;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ganguomob.dev.myspringboot.socketio.service.SocketUserDetailsService;
+import com.ganguomob.dev.myspringboot.socketio.config.SocketIOConfigBuilder;
+import com.ganguomob.dev.myspringboot.socketio.config.SocketIOServerBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,33 +17,20 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SocketConfiguration {
 
-    @Value("${socket.hostname:127.0.0.1}")
+    @Value("${socketio.hostname:0.0.0.0}")
     private String hostname;
 
-    @Value("${socket.port}")
+    @Value("${socketio.port}")
     private int port;
 
-    @Value("${socket.debug:false}")
-    private boolean debug;
-
-    @Bean
-    public SocketConfig socketIOConfig() {
-        SocketConfig config = new SocketConfig();
-        config.setHostname(hostname);
-        config.setPort(port);
-        config.setDebug(debug);
-        config.setAuthorizationListener(data -> StringUtils.isNotEmpty(getToken(data)));
-        config.setConnectListener(client -> {
-            String token = getToken(client.getHandshakeData());
-            if (StringUtils.isEmpty(token)) {
-                client.disconnect();
-            }
-            client.set("token", token);
-        });
-        return config;
-    }
-
-    private String getToken(HandshakeData data) {
-        return data.getSingleUrlParam("token");
+    @Bean("socketIOService")
+    public SocketIOServer server(@Autowired(required = false) ObjectMapper objectMapper,
+                                 SocketUserDetailsServiceImpl userDetailService) {
+        return new SocketIOServerBuilder(new SocketIOConfigBuilder()
+                .setHostname(hostname)
+                .setPort(port)
+                .setObjectMapper(objectMapper))
+                .setUserDetailService(userDetailService)
+                .build();
     }
 }

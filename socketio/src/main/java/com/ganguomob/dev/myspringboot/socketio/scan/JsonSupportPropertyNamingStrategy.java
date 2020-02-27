@@ -1,4 +1,4 @@
-package com.ganguomob.dev.myspringboot.socketio;
+package com.ganguomob.dev.myspringboot.socketio.scan;
 
 import com.corundumstudio.socketio.Configuration;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;

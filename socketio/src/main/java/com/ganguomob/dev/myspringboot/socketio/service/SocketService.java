@@ -1,4 +1,4 @@
-package com.ganguomob.dev.myspringboot.socketio.anno;
+package com.ganguomob.dev.myspringboot.socketio.service;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -20,6 +20,9 @@ public @interface SocketService {
     /** bean的名称，不指定则使用Spring的bean名称生成策略 */
     String name() default "";
 
-    /** 命名空间 */
+    /** 绑定的{@link com.corundumstudio.socketio.SocketIOServer}的bean名称，如果spring中只有一个实例，则可以为空 */
+    String server() default "";
+
+    /** 绑定的namespace */
     String namespace();
 }

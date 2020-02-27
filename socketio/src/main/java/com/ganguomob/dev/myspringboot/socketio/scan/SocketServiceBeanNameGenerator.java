@@ -1,6 +1,6 @@
-package com.ganguomob.dev.myspringboot.socketio;
+package com.ganguomob.dev.myspringboot.socketio.scan;
 
-import com.ganguomob.dev.myspringboot.socketio.anno.SocketService;
+import com.ganguomob.dev.myspringboot.socketio.service.SocketService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.config.BeanDefinition;
