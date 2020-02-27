@@ -16,6 +16,11 @@ public interface SocketUserDetailsService {
     Authentication loadAuthentication(HandshakeData data);
 
     /**
+     * 验证Authentication是否有效
+     */
+    boolean verifyAuthentication(Authentication authentication);
+
+    /**
      * 存储Authentication到client中
      */
     void setAuthentication(SocketIOClient client, Authentication authentication);

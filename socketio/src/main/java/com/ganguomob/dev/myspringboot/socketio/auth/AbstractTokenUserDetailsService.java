@@ -13,13 +13,28 @@ public abstract class AbstractTokenUserDetailsService implements SocketUserDetai
     private static final String PARAM_TOKEN = "token";
     private static final String KEY_TOKEN = "token";
 
+    /**
+     * 解码Token
+     */
+    public abstract String decodeToken(String token);
+
+    /**
+     * 验证Authentication
+     */
+    public abstract boolean verifyAuthentication(TokenAuthentication authentication);
+
     @Override
     public Authentication loadAuthentication(HandshakeData data) {
         String token = data.getSingleUrlParam(PARAM_TOKEN);
         if (StringUtils.isEmpty(token)) {
             return null;
         }
-        return new TokenAuthentication(token);
+        return new TokenAuthentication(decodeToken(token));
+    }
+
+    @Override
+    public boolean verifyAuthentication(Authentication authentication) {
+        return verifyAuthentication((TokenAuthentication) authentication);
     }
 
     @Override
