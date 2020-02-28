@@ -1,5 +1,6 @@
 package com.ganguomob.dev.myspringboot.common.util;
 
+import cn.hutool.core.lang.UUID;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import java.security.NoSuchAlgorithmException;
@@ -119,5 +120,14 @@ public class RandomUtils {
      */
     public static SecureRandom getSecureRandom() {
         return secureRandom.get();
+    }
+
+    /**
+     * 生成UUID
+     *
+     * @return UUID
+     */
+    public static String getUuid() {
+        return UUID.randomUUID().toString().replace("-", "");
     }
 }
