@@ -6,4 +6,5 @@ include 'sms:yuntongxun'
 include 'sms:qcloud'
 include 'common'
 include 'socketio'
+include 'cachehelper'
 
