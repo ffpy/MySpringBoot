@@ -39,6 +39,7 @@ public abstract class BaseSocketService<U> implements ApplicationContextAware {
 
     private ResponseAdvice responseAdvice;
 
+    @SuppressWarnings("rawtypes")
     private List<ExceptionHandler> exceptionHandlers;
 
     private ApplicationContext applicationContext;
@@ -252,8 +253,9 @@ public abstract class BaseSocketService<U> implements ApplicationContextAware {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private void handleException(AckRequest ackSender, Exception e) throws Exception {
-        ExceptionHandler exceptionHandler = exceptionHandlers.stream()
+        ExceptionHandler<Exception> exceptionHandler = exceptionHandlers.stream()
                 .filter(advice -> advice.supportException(e))
                 .findFirst()
                 .orElse(null);

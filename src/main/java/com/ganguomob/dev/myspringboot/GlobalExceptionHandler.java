@@ -11,10 +11,10 @@ import org.springframework.stereotype.Component;
  * @date 2020/2/28
  */
 @Component
-public class GlobalExceptionHandler implements ExceptionHandler {
+public class GlobalExceptionHandler implements ExceptionHandler<CommonException> {
 
     @Override
-    public Object handle(Exception e) {
+    public Object handle(CommonException e) {
         return new Response<>(HttpStatus.BAD_REQUEST.value(), null, e.getMessage());
     }
 
