@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringUtils;
  */
 public abstract class AbstractTokenUserDetailsService implements SocketUserDetailsService {
     private static final String PARAM_TOKEN = "token";
-    private static final String KEY_TOKEN = "token";
+    private static final String KEY_TOKEN = "_token_";
 
     /**
      * 验证Authentication
