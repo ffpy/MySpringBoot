@@ -56,7 +56,7 @@ public class RedissonConfig {
 ### CacheKeys
 ```java
 public enum CacheKeys {
-    TEST(TEST_TAG),
+    TEST__FIND_BY_ID(TEST_TAG),
 
     ;
     private final Key key;
