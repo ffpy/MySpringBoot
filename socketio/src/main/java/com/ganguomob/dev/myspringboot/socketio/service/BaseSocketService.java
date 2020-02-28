@@ -6,7 +6,7 @@ import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIONamespace;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.DataListener;
-import com.ganguomob.dev.myspringboot.socketio.advice.ExceptionAdvice;
+import com.ganguomob.dev.myspringboot.socketio.advice.ExceptionHandler;
 import com.ganguomob.dev.myspringboot.socketio.advice.ResponseAdvice;
 import com.ganguomob.dev.myspringboot.socketio.config.SocketIOServerBuilder;
 import com.ganguomob.dev.myspringboot.socketio.util.SocketServiceUtils;
@@ -39,7 +39,7 @@ public abstract class BaseSocketService<U> implements ApplicationContextAware {
 
     private ResponseAdvice responseAdvice;
 
-    private List<ExceptionAdvice> exceptionAdvices;
+    private List<ExceptionHandler> exceptionHandlers;
 
     private ApplicationContext applicationContext;
 
@@ -159,7 +159,7 @@ public abstract class BaseSocketService<U> implements ApplicationContextAware {
                 .findFirst()
                 .orElse(ResponseAdvice.IDENTITY);
 
-        exceptionAdvices = applicationContext.getBeansOfType(ExceptionAdvice.class).values().stream()
+        exceptionHandlers = applicationContext.getBeansOfType(ExceptionHandler.class).values().stream()
                 .filter(advice -> advice.supports(server, namespace))
                 .collect(Collectors.toList());
     }
@@ -253,12 +253,12 @@ public abstract class BaseSocketService<U> implements ApplicationContextAware {
     }
 
     private void handleException(AckRequest ackSender, Exception e) throws Exception {
-        ExceptionAdvice exceptionAdvice = exceptionAdvices.stream()
+        ExceptionHandler exceptionHandler = exceptionHandlers.stream()
                 .filter(advice -> advice.supportException(e))
                 .findFirst()
                 .orElse(null);
-        if (exceptionAdvice != null) {
-            Object result = exceptionAdvice.handle(e);
+        if (exceptionHandler != null) {
+            Object result = exceptionHandler.handle(e);
             ackSender.sendAckData(result);
         } else {
             throw e;

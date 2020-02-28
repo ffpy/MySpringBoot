@@ -2,7 +2,7 @@ package com.ganguomob.dev.myspringboot;
 
 import com.corundumstudio.socketio.SocketIONamespace;
 import com.corundumstudio.socketio.SocketIOServer;
-import com.ganguomob.dev.myspringboot.socketio.advice.ExceptionAdvice;
+import com.ganguomob.dev.myspringboot.socketio.advice.ExceptionHandler;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * @date 2020/2/28
  */
 @Component
-public class GlobalExceptionAdvice implements ExceptionAdvice {
+public class GlobalExceptionHandler implements ExceptionHandler {
 
     @Override
     public Object handle(Exception e) {

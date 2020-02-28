@@ -4,7 +4,7 @@ package com.ganguomob.dev.myspringboot.socketio.advice;
  * @author wenlongsheng
  * @date 2020/2/28
  */
-public interface ExceptionAdvice extends Advice {
+public interface ExceptionHandler extends Advice {
 
     Object handle(Exception e);
 
