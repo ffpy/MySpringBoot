@@ -18,14 +18,21 @@ import lombok.extern.slf4j.Slf4j;
 public class TestService extends BaseSocketService<String> {
     @Override
     protected void init() {
-        getNamespace().addConnectListener(client -> {
-            log.debug("new client: {}, token: {}", client.getRemoteAddress(), client.get("token"));
-        });
+//        getNamespace().addEventListener("hello", HelloRequest.class,
+//                wrapDataListener((client, data, ackSender) -> {
+//                    ackSender.sendAckData(wrapData(new HelloResponse("hello, " + data.getName())));
+//                }));
+    }
+
+    @Override
+    protected void onConnect(SocketIOClient client) {
+        log.debug("new client: {}, token: {}", client.getRemoteAddress(), client.get("token"));
     }
 
     @EventHandler("hello")
     public HelloResponse hello(SocketIOClient client, HelloRequest request) {
         log.debug("hello from {}({}), data: {}", client.getRemoteAddress(), getUser(client), request);
+//        throw new CommonException("测试报错");
         return new HelloResponse("hello, " + request.getName());
     }
 

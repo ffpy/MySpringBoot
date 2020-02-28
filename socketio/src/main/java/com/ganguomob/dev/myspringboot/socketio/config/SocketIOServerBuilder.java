@@ -1,9 +1,10 @@
 package com.ganguomob.dev.myspringboot.socketio.config;
 
 import com.corundumstudio.socketio.SocketIOServer;
-import com.ganguomob.dev.myspringboot.socketio.service.SocketUserDetailsService;
 import com.ganguomob.dev.myspringboot.socketio.auth.Authentication;
+import com.ganguomob.dev.myspringboot.socketio.service.SocketUserDetailsService;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,12 +12,15 @@ import java.util.Map;
  * @author wenlongsheng
  * @date 2020/2/27
  */
-@SuppressWarnings({"rawtypes", "unchecked"})
 public class SocketIOServerBuilder {
-    public static final Map<SocketIOServer, SocketUserDetailsService> USER_DETAILS_SERVICE_MAP = new HashMap<>();
+    private static final Map<SocketIOServer, SocketUserDetailsService> userDetailsServiceMap = new HashMap<>();
 
     private SocketIOConfigBuilder config;
     private SocketUserDetailsService userDetailService;
+
+    public static Map<SocketIOServer, SocketUserDetailsService> getUserDetailsServiceMap() {
+        return Collections.unmodifiableMap(userDetailsServiceMap);
+    }
 
     public SocketIOServerBuilder(SocketIOConfigBuilder config) {
         this.config = config;
@@ -37,18 +41,20 @@ public class SocketIOServerBuilder {
 
     public SocketIOServer build() {
         if (userDetailService != null) {
-            config.setAuthorizationListener(data -> userDetailService.loadAuthentication(data) != null);
+            config.setAuthorizationListener(data -> {
+                Authentication authentication = userDetailService.loadAuthentication(data);
+                return authentication != null && userDetailService.verifyAuthentication(authentication);
+            });
         }
 
         SocketIOServer server = new SocketIOServer(config.build());
 
         if (userDetailService != null) {
-            USER_DETAILS_SERVICE_MAP.put(server, userDetailService);
+            userDetailsServiceMap.put(server, userDetailService);
 
             server.addConnectListener(client -> {
-                Authentication authentication = (Authentication) userDetailService.loadAuthentication(
-                        client.getHandshakeData());
-                if (authentication == null) {
+                Authentication authentication = userDetailService.loadAuthentication(client.getHandshakeData());
+                if (authentication == null || !userDetailService.verifyAuthentication(authentication)) {
                     client.disconnect();
                 } else {
                     userDetailService.setAuthentication(client, authentication);
@@ -58,4 +64,5 @@ public class SocketIOServerBuilder {
 
         return server;
     }
+
 }

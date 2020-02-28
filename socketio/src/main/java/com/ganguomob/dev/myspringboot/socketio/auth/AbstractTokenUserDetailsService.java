@@ -14,14 +14,16 @@ public abstract class AbstractTokenUserDetailsService implements SocketUserDetai
     private static final String KEY_TOKEN = "token";
 
     /**
-     * 解码Token
-     */
-    public abstract String decodeToken(String token);
-
-    /**
      * 验证Authentication
      */
     public abstract boolean verifyAuthentication(TokenAuthentication authentication);
+
+    /**
+     * 解码Token
+     */
+    public String decodeToken(String token) {
+        return token;
+    }
 
     @Override
     public Authentication loadAuthentication(HandshakeData data) {
