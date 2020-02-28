@@ -15,6 +15,44 @@
 | cache.defaultTtl | 默认缓存过期时间（分钟） | 120 |
 | cache.scanCount | Scan命令扫描的个数 | 1000 |
 
+### RedissonConfig示例
+```java
+@Configuration
+public class RedissonConfig {
+
+    @Value("${spring.redis.host}")
+    private String host;
+
+    @Value("${spring.redis.port}")
+    private int port;
+
+    @Value("${spring.redis.password}")
+    private String password;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Bean(destroyMethod = "shutdown")
+    public RedissonClient provideRedissonClient() {
+        Config config = new Config();
+        config.setNettyThreads(0);
+        config.setThreads(0);
+        config.setCodec(new JsonJacksonCodec(objectMapper));
+
+        SingleServerConfig serverConfig = config.useSingleServer();
+        serverConfig.setAddress("redis://" + host + ":" + port)
+                .setTimeout(5000)
+                .setRetryAttempts(10)
+                .setRetryInterval(3000);
+        if (StringUtils.isNotEmpty(password)) {
+            serverConfig.setPassword(password);
+        }
+
+        return Redisson.create(config);
+    }
+}
+```
+
 ### CacheKeys
 ```java
 public enum CacheKeys {
