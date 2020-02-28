@@ -25,6 +25,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
+ * Redis缓存工具类
+ * Github地址: https://github.com/ffpy/MySpringBoot/tree/ganguo/cachehelper
+ *
  * @author wenlongsheng
  */
 @Component
