@@ -20,6 +20,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -105,11 +106,11 @@ public abstract class BaseSocketService<U> implements ApplicationContextAware {
      * 获取指定连接的User
      */
     @SuppressWarnings("unchecked")
-    protected U getUser(SocketIOClient client) {
+    protected Optional<U> getUser(SocketIOClient client) {
         if (userDetailService == null) {
             throw new RuntimeException("找不到userDetailService");
         }
-        return (U) userDetailService.getUser(client);
+        return Optional.ofNullable((U) userDetailService.getUser(client));
     }
 
     /**
