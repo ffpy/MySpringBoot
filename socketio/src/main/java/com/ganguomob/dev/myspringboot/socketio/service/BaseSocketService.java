@@ -119,7 +119,7 @@ public abstract class BaseSocketService<U> implements ApplicationContextAware {
      * @param data 数据
      * @return 处理后的数据
      */
-    protected Object wrapData(Object data) {
+    public Object wrapData(Object data) {
         return responseAdvice.beforeBodyWrite(data, null);
     }
 
