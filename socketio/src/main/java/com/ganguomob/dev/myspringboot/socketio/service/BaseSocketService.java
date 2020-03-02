@@ -106,7 +106,7 @@ public abstract class BaseSocketService<U> implements ApplicationContextAware {
      * 获取指定连接的User
      */
     @SuppressWarnings("unchecked")
-    protected Optional<U> getUser(SocketIOClient client) {
+    public Optional<U> getUser(SocketIOClient client) {
         if (userDetailService == null) {
             throw new RuntimeException("找不到userDetailService");
         }
