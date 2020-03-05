@@ -34,4 +34,9 @@ public interface SocketUserDetailsService {
      * 获取client关联的User
      */
     Object getUser(SocketIOClient client);
+
+    /**
+     * 获取client关联的UserID
+     */
+    Long getUserId(SocketIOClient client);
 }

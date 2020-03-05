@@ -1,14 +1,17 @@
 package com.ganguomob.dev.myspringboot.socketio.service;
 
 import com.corundumstudio.socketio.AckRequest;
-import com.corundumstudio.socketio.BroadcastOperations;
 import com.corundumstudio.socketio.SocketIOClient;
-import com.corundumstudio.socketio.SocketIONamespace;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.DataListener;
 import com.ganguomob.dev.myspringboot.socketio.advice.ExceptionHandler;
 import com.ganguomob.dev.myspringboot.socketio.advice.ResponseAdvice;
 import com.ganguomob.dev.myspringboot.socketio.config.SocketIOServerBuilder;
+import com.ganguomob.dev.myspringboot.socketio.model.Client;
+import com.ganguomob.dev.myspringboot.socketio.model.ClientImpl;
+import com.ganguomob.dev.myspringboot.socketio.model.MyBroadcastOperations;
+import com.ganguomob.dev.myspringboot.socketio.model.Namespace;
+import com.ganguomob.dev.myspringboot.socketio.model.NamespaceImpl;
 import com.ganguomob.dev.myspringboot.socketio.util.SocketServiceUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
@@ -24,17 +27,18 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * @param <U> 用户类型
  * @author wenlongsheng
  * @date 2020/2/21
  */
-public abstract class BaseSocketService<U> implements ApplicationContextAware {
+public abstract class BaseSocketService implements ApplicationContextAware {
+
+    private static final String KEY_CLIENT = "__client__";
 
     /** 绑定的SocketIOServer */
     private SocketIOServer server;
 
     /** 绑定的Namespace */
-    private SocketIONamespace namespace;
+    private Namespace namespace;
 
     private SocketUserDetailsService userDetailService;
 
@@ -54,13 +58,13 @@ public abstract class BaseSocketService<U> implements ApplicationContextAware {
     /**
      * 新用户连接时通知
      */
-    protected void onConnect(SocketIOClient client) {
+    protected void onConnect(Client client) {
     }
 
     /**
      * 有连接断开时通知
      */
-    protected void onDisconnect(SocketIOClient client) {
+    protected void onDisconnect(Client client) {
     }
 
     @Override
@@ -84,14 +88,14 @@ public abstract class BaseSocketService<U> implements ApplicationContextAware {
     /**
      * 获取绑定的Namespace
      */
-    public SocketIONamespace getNamespace() {
+    public Namespace getNamespace() {
         return namespace;
     }
 
     /**
      * 获取当前服务的广播操作
      */
-    public BroadcastOperations getBroadcastOperations() {
+    public MyBroadcastOperations getBroadcastOperations() {
         return namespace.getBroadcastOperations();
     }
 
@@ -106,11 +110,11 @@ public abstract class BaseSocketService<U> implements ApplicationContextAware {
      * 获取指定连接的User
      */
     @SuppressWarnings("unchecked")
-    public Optional<U> getUser(SocketIOClient client) {
+    public <T> Optional<T> getUser(SocketIOClient client) {
         if (userDetailService == null) {
             throw new RuntimeException("找不到userDetailService");
         }
-        return Optional.ofNullable((U) userDetailService.getUser(client));
+        return Optional.ofNullable((T) userDetailService.getUser(client));
     }
 
     /**
@@ -148,7 +152,7 @@ public abstract class BaseSocketService<U> implements ApplicationContextAware {
             throw new RuntimeException(serverName + "的" + namespaceName + "已被绑定");
         }
 
-        this.namespace = this.server.addNamespace(namespaceName);
+        this.namespace = new NamespaceImpl(this.server.addNamespace(namespaceName), this);
         this.userDetailService = SocketIOServerBuilder.getUserDetailsServiceMap().get(this.server);
     }
 
@@ -185,7 +189,7 @@ public abstract class BaseSocketService<U> implements ApplicationContextAware {
             // 获取数据类型
             Class dataType = Object.class;
             for (Class<?> type : method.getParameterTypes()) {
-                if (type != SocketIOClient.class && type != AckRequest.class) {
+                if (type != SocketIOClient.class && type != AckRequest.class && type != Client.class) {
                     if (dataType != Object.class) {
                         throw new RuntimeException("方法" + method.getName() + "只能有一个数据参数");
                     }
@@ -196,6 +200,15 @@ public abstract class BaseSocketService<U> implements ApplicationContextAware {
             // 绑定Event
             namespace.addEventListener(event, dataType, new MethodDataListener<>(method));
         }
+    }
+
+    public Client getClient(SocketIOClient client) {
+        ClientImpl c = client.get(KEY_CLIENT);
+        if (c == null) {
+            c = new ClientImpl(client, userDetailService, this);
+            client.set(KEY_CLIENT, c);
+        }
+        return c;
     }
 
     private class MyDataListener<T> implements DataListener<T> {
@@ -232,6 +245,9 @@ public abstract class BaseSocketService<U> implements ApplicationContextAware {
                 }
                 if (type == AckRequest.class) {
                     return ackSender;
+                }
+                if (type == Client.class) {
+                    return getClient(client);
                 }
                 return data;
             }).toArray(Object[]::new);

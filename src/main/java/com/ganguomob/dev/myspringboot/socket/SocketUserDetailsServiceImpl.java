@@ -21,4 +21,9 @@ public class SocketUserDetailsServiceImpl extends AbstractTokenUserDetailsServic
     public Object getUser(SocketIOClient client) {
         return "{user: " + getAuthentication(client).getToken() + "}";
     }
+
+    @Override
+    public Long getUserId(SocketIOClient client) {
+        return 1L;
+    }
 }
