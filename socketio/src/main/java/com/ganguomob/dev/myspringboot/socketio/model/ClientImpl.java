@@ -86,11 +86,13 @@ public class ClientImpl implements Client {
     @Override
     public void set(String key, Object val) {
         keySet.add(key);
+        this.client.set(key, val);
     }
 
     @Override
     public void del(String key) {
         keySet.remove(key);
+        this.client.del(key);
     }
 
     @Override
