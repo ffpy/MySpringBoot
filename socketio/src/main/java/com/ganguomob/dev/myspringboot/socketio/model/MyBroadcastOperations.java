@@ -33,14 +33,20 @@ public class MyBroadcastOperations extends BroadcastOperations {
 
     @Override
     public void sendEvent(String name, Object... data) {
-        checkDataLength(data);
-        broadcastOperations.sendEvent(name, socketService.wrapData(data[0]));
+        if (data.length == 0) {
+            broadcastOperations.sendEvent(name);
+        } else {
+            broadcastOperations.sendEvent(name, wrapData(data));
+        }
     }
 
     @Override
     public void sendEvent(String name, SocketIOClient excludedClient, Object... data) {
-        checkDataLength(data);
-        super.sendEvent(name, excludedClient, socketService.wrapData(data[0]));
+        if (data.length == 0) {
+            super.sendEvent(name, excludedClient);
+        } else {
+            super.sendEvent(name, excludedClient, wrapData(data));
+        }
     }
 
     @Override
@@ -53,10 +59,11 @@ public class MyBroadcastOperations extends BroadcastOperations {
         super.sendEvent(name, socketService.wrapData(data), excludedClient, ackCallback);
     }
 
-    private void checkDataLength(Object[] data) {
+    private Object wrapData(Object[] data) {
         if (data.length != 1) {
             throw new IllegalArgumentException("只能传一个参数");
         }
+        return socketService.wrapData(data[0]);
     }
 
     private interface NoDelegate {

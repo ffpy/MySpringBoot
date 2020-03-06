@@ -56,14 +56,20 @@ public class ClientImpl implements Client {
 
     @Override
     public void sendEvent(String name, Object... data) {
-        checkDataLength(data);
-        client.sendEvent(name, socketService.wrapData(data[0]));
+        if (data.length == 0) {
+            client.sendEvent(name);
+        } else {
+            client.sendEvent(name, wrapData(data));
+        }
     }
 
     @Override
     public void sendEvent(String name, AckCallback<?> ackCallback, Object... data) {
-        checkDataLength(data);
-        client.sendEvent(name, ackCallback, socketService.wrapData(data[0]));
+        if (data.length == 0) {
+            client.sendEvent(name);
+        } else {
+            client.sendEvent(name, ackCallback, wrapData(data));
+        }
     }
 
     @Override
@@ -100,10 +106,11 @@ public class ClientImpl implements Client {
         return Collections.unmodifiableSet(keySet);
     }
 
-    private void checkDataLength(Object[] data) {
+    private Object wrapData(Object[] data) {
         if (data.length != 1) {
             throw new IllegalArgumentException("只能传一个参数");
         }
+        return socketService.wrapData(data[0]);
     }
 
     private interface NoDelegate {
