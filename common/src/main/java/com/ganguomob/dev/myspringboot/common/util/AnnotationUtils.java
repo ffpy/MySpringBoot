@@ -14,16 +14,16 @@ import java.lang.reflect.Method;
 public class AnnotationUtils {
 
     /**
-     * 获取元素上的注解的属性值
+     * 获取元素上的注解的属性
      *
      * @param element         元素
      * @param annotationClass 注解类型
      * @param checkDecorator  是否检查装饰器注解
-     * @return 值
+     * @return 属性集合
      */
-    public static Attrs getValue(AnnotatedElement element, Class<? extends Annotation> annotationClass,
+    public static Attrs getAttrs(AnnotatedElement element, Class<? extends Annotation> annotationClass,
                                  boolean checkDecorator) {
-        Annotation annotation = element.getDeclaredAnnotation(annotationClass);
+        Annotation annotation = element.getAnnotation(annotationClass);
         if (annotation != null) {
             return new DirectAttrs(annotation);
         }
@@ -32,14 +32,34 @@ public class AnnotationUtils {
             return null;
         }
 
-        for (Annotation anno : element.getDeclaredAnnotations()) {
-            Annotation superAnno = anno.annotationType().getDeclaredAnnotation(annotationClass);
+        for (Annotation anno : element.getAnnotations()) {
+            Annotation superAnno = anno.annotationType().getAnnotation(annotationClass);
             if (superAnno != null) {
                 return new DecoratorAttrs(anno, superAnno);
             }
         }
 
         return null;
+    }
+
+    /**
+     * 获取注解的属性
+     *
+     * @param annotation           注解
+     * @param superAnnotationClass 父注解类型
+     * @return 属性集合
+     */
+    public static Attrs getAttrs(Annotation annotation, Class<? extends Annotation> superAnnotationClass) {
+        if (annotation.annotationType() == superAnnotationClass) {
+            return new DirectAttrs(annotation);
+        }
+
+        Annotation superAnnotation = annotation.annotationType().getAnnotation(superAnnotationClass);
+        if (superAnnotation == null) {
+            throw new IllegalArgumentException(annotation.annotationType().getName() + "上没有" +
+                    superAnnotationClass.getName() + "注解");
+        }
+        return new DecoratorAttrs(annotation, superAnnotation);
     }
 
     @SuppressWarnings("unchecked")
