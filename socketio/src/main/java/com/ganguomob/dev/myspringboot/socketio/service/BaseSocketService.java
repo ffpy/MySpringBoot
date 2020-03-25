@@ -1,5 +1,6 @@
 package com.ganguomob.dev.myspringboot.socketio.service;
 
+import cn.hutool.core.lang.Holder;
 import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
@@ -12,6 +13,7 @@ import com.ganguomob.dev.myspringboot.socketio.model.ClientImpl;
 import com.ganguomob.dev.myspringboot.socketio.model.MyBroadcastOperations;
 import com.ganguomob.dev.myspringboot.socketio.model.Namespace;
 import com.ganguomob.dev.myspringboot.socketio.model.NamespaceImpl;
+import com.ganguomob.dev.myspringboot.socketio.util.AfterAckAction;
 import com.ganguomob.dev.myspringboot.socketio.util.SocketServiceUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
@@ -239,6 +241,7 @@ public abstract class BaseSocketService implements ApplicationContextAware {
 
         @Override
         public void onData(SocketIOClient client, T data, AckRequest ackSender) throws Exception {
+            Holder<AfterAckAction> afterAckActionHolder = new Holder<>();
             Object[] args = Arrays.stream(method.getParameterTypes()).map(type -> {
                 if (type == SocketIOClient.class) {
                     return client;
@@ -248,6 +251,13 @@ public abstract class BaseSocketService implements ApplicationContextAware {
                 }
                 if (type == Client.class) {
                     return getClient(client);
+                }
+                if (type == AfterAckAction.class) {
+                    if (afterAckActionHolder.get() != null) {
+                        throw new RuntimeException("只能有一个" + AfterAckAction.class.getSimpleName() + "参数");
+                    }
+                    afterAckActionHolder.set(new AfterAckAction());
+                    return afterAckActionHolder.get();
                 }
                 return data;
             }).toArray(Object[]::new);
@@ -261,6 +271,9 @@ public abstract class BaseSocketService implements ApplicationContextAware {
                 } else if (method.getReturnType() != void.class) {
                     ackSender.sendAckData(result);
                 }
+
+                Optional.ofNullable(afterAckActionHolder.get())
+                        .ifPresent(AfterAckAction::run);
             } catch (InvocationTargetException e) {
                 Throwable target = e.getTargetException();
                 if (target instanceof Exception) {
