@@ -175,7 +175,7 @@ public abstract class BaseSocketService implements ApplicationContextAware {
     /**
      * 绑定Event事件到Service的方法
      */
-    @SuppressWarnings({"rawtypes", "unchecked"})
+    @SuppressWarnings({"rawtypes" , "unchecked"})
     private void bindEventListeners() {
         for (Method method : getClass().getMethods()) {
             EventHandler eventHandler = method.getAnnotation(EventHandler.class);
@@ -191,7 +191,8 @@ public abstract class BaseSocketService implements ApplicationContextAware {
             // 获取数据类型
             Class dataType = Object.class;
             for (Class<?> type : method.getParameterTypes()) {
-                if (type != SocketIOClient.class && type != AckRequest.class && type != Client.class) {
+                if (type != SocketIOClient.class && type != AckRequest.class &&
+                        type != Client.class && type != AfterAckAction.class) {
                     if (dataType != Object.class) {
                         throw new RuntimeException("方法" + method.getName() + "只能有一个数据参数");
                     }
