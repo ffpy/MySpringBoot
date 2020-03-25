@@ -1,6 +1,5 @@
 package com.ganguomob.dev.myspringboot.socketio.service;
 
-import cn.hutool.core.lang.Holder;
 import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
@@ -20,6 +19,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+import javax.xml.ws.Holder;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -254,11 +254,11 @@ public abstract class BaseSocketService implements ApplicationContextAware {
                     return getClient(client);
                 }
                 if (type == AfterAckAction.class) {
-                    if (afterAckActionHolder.get() != null) {
+                    if (afterAckActionHolder.value != null) {
                         throw new RuntimeException("只能有一个" + AfterAckAction.class.getSimpleName() + "参数");
                     }
-                    afterAckActionHolder.set(new AfterAckAction());
-                    return afterAckActionHolder.get();
+                    afterAckActionHolder.value = new AfterAckAction();
+                    return afterAckActionHolder.value;
                 }
                 return data;
             }).toArray(Object[]::new);
@@ -273,7 +273,7 @@ public abstract class BaseSocketService implements ApplicationContextAware {
                     ackSender.sendAckData(result);
                 }
 
-                Optional.ofNullable(afterAckActionHolder.get())
+                Optional.ofNullable(afterAckActionHolder.value)
                         .ifPresent(AfterAckAction::run);
             } catch (InvocationTargetException e) {
                 Throwable target = e.getTargetException();
