@@ -38,7 +38,9 @@ allprojects {
                 swagger_ui                    : "io.springfox:springfox-swagger-ui:$swaggerVersion",
                 socket_io                     : "com.corundumstudio.socketio:netty-socketio:1.7.18",
                 redisson                      : "org.redisson:redisson:3.11.5",
-                assertj                       : "org.assertj:assertj-core:3.14.0"
+                assertj                       : "org.assertj:assertj-core:3.14.0",
+                guava                         : "com.google.guava:guava:28.2-jre"
+
         ]
     }
 
@@ -80,4 +82,5 @@ dependencies {
     compile project(':socketio')
 
     implementation libs.socket_io
+    implementation libs.guava
 }

@@ -112,6 +112,10 @@ public class SpringContextUtils implements InitializingBean, ApplicationContextA
 
     @Override
     public void afterPropertiesSet() throws Exception {
+        if (environment != null) {
+            return;
+        }
+
         // 注入Environment
         environment = mEnvironment;
 
@@ -127,14 +131,18 @@ public class SpringContextUtils implements InitializingBean, ApplicationContextA
     }
 
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) {
+    public void setApplicationContext(ApplicationContext context) {
+        if (applicationContext != null) {
+            return;
+        }
+
         // 注入applicationContext
-        SpringContextUtils.applicationContext = applicationContext;
+        applicationContext = context;
 
         Lock lock = contextLock.readLock();
         try {
             lock.lock();
-            contextConsumers.forEach(consumer -> consumer.accept(applicationContext));
+            contextConsumers.forEach(consumer -> consumer.accept(context));
             contextConsumers = null;
             contextLock = null;
         } finally {
