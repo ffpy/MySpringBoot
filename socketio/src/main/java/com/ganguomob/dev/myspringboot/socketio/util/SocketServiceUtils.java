@@ -9,6 +9,7 @@ import com.ganguomob.dev.myspringboot.socketio.scan.JsonSupportPropertyNamingStr
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.function.Consumer;
 
 /**
  * @author wenlongsheng
@@ -27,6 +28,13 @@ public class SocketServiceUtils {
      * 包装自定义的ObjectMapper为JsonSupport
      */
     public static JsonSupport createJsonSupport(ObjectMapper objectMapper) {
+        return createJsonSupport(objectMapper, null);
+    }
+
+    /**
+     * 包装自定义的ObjectMapper为JsonSupport
+     */
+    public static JsonSupport createJsonSupport(ObjectMapper objectMapper, Consumer<ObjectMapper> extraAction) {
         // 通过反射来使用自定义的ObjectMapper
         objectMapper = objectMapper.copy();
         objectMapper.setPropertyNamingStrategy(
@@ -54,6 +62,10 @@ public class SocketServiceUtils {
         try {
             field.set(jsonSupport, objectMapper);
             init.invoke(jsonSupport, objectMapper);
+
+            if (extraAction != null) {
+                extraAction.accept(objectMapper);
+            }
         } catch (IllegalAccessException | InvocationTargetException e) {
             throw new RuntimeException(e);
         }
